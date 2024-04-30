@@ -1,0 +1,77 @@
+<p-card>
+    <form [formGroup]="form">
+        <div class="grid">
+            <div class="col-4" style="display: flex;
+            justify-content: center;    align-items: center;">
+                <app-selecionar-imagem texto="Logo de empresa" [fotoUrl]="cliente.logoUrl" (fotosSelecionadas)="setLogo($event)" ></app-selecionar-imagem>
+            </div>
+            <div class="col-8 grid">
+                <div class="col-12 flex flex-column">
+                    <label class="mb-2 block font-bold" for="stacked">Obra</label>
+                    <input type="text" pInputText formControlName="obra"/>
+                </div>
+                <div class="col-6 flex flex-column">
+                    <label class="mb-2 block font-bold" for="stacked">Nome</label>
+                    <input type="text" pInputText formControlName="nome"/>
+                </div>
+                <div class="col-6 flex flex-column">
+                    <label class="mb-2 block font-bold" for="stacked">Telefone</label>
+                    <p-inputMask mask="(99) 9 9999-9999"formControlName="telefone" placeholder="(99) 9 9999-9999"></p-inputMask>
+                </div>
+            </div>
+            <div class="col-12 flex flex-column">
+                <label class="mb-2 block font-bold" for="stacked">Endereço Cliente</label>
+                <input type="text" pInputText formControlName="enderecoCliente"/>
+            </div>
+            <div class="col-12 flex flex-column">
+                <label class="mb-2 block font-bold" for="stacked">Endereço</label>
+                <input type="text" pInputText formControlName="endereco"/>
+            </div>
+            <div class="col-4 flex flex-column">
+                <label class="mb-2 block font-bold" for="stacked">Cidade</label>
+                <input type="text" pInputText formControlName="cidade"/>
+            </div>
+            <div class="col-4 flex flex-column">
+                <label class="mb-2 block font-bold" for="stacked">Estado</label>
+                <input type="text" pInputText formControlName="estado"/>
+            </div>
+            <div class="col-4 flex flex-column">
+                <label class="mb-2 block font-bold" for="stacked">Email</label>
+                <input type="email" pInputText formControlName="email"/>
+            </div>
+            <div class="col-3 flex flex-column">
+                <label class="mb-2 block font-bold" for="stacked">Tipo de Obra</label>
+                <input type="text" pInputText formControlName="tipoDeObra"/>
+            </div>
+            <div class="col-3 flex flex-column">
+                <label class="mb-2 block font-bold" for="stacked">Previsão de Início</label>
+                <p-calendar formControlName="previsaoInicio"></p-calendar>
+            </div>
+            <div class="col-3 flex flex-column">
+                <label class="mb-2 block font-bold" for="stacked">Encargos Sociais</label>
+                <input type="text" pInputText formControlName="encargosSociais"/>
+            </div>
+            <div class="col-3 flex flex-column">
+                <label class="mb-2 block font-bold" for="stacked">BDI</label>
+                <input type="email" pInputText formControlName="bdi"/>
+            </div>
+            <div class="col-4 flex flex-column">
+                <label class="mb-2 block font-bold" for="stacked">Área projetada</label>
+                <p-inputNumber formControlName="areaProjetada" suffix=" m²"> </p-inputNumber>
+            </div>
+            <div class="col-4 flex flex-column">
+                <label class="mb-2 block font-bold" for="stacked">Área Construída</label>
+                <p-inputNumber formControlName="areaConstruida" suffix=" m²"> </p-inputNumber>
+            </div>
+            <div class="col-4 flex flex-column">
+                <label class="mb-2 block font-bold" for="stacked">Área Terreno</label>
+                <p-inputNumber formControlName="areaTerreno" suffix=" m²"> </p-inputNumber>
+            </div>
+        </div>
+     
+    </form>
+    <div class="button-salvar">
+        <p-button label="Salvar" icon="pi pi-check" (click)="salvar()"></p-button>
+    </div>
+</p-card>
+  

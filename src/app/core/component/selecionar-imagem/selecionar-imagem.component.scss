@@ -1,0 +1,30 @@
+.container {
+    flex: 1 0 0;
+    align-self: stretch;
+    gap: 10px;
+    cursor: pointer;
+    // img {
+    //     width: 46px;
+    //     height: 46px;
+    // }
+    
+    .texto {
+        color: var(--grey);
+        /* body/14 bold */
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        text-align: center;
+    }
+    
+    .detalhe {
+        font-weight: 400;
+    }
+}
+.picture-container {
+    margin: 10px 0px 10px;
+    .picture {
+        flex-wrap: wrap;
+    }
+}

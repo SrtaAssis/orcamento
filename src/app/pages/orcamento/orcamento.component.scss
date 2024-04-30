@@ -1,0 +1,37 @@
+.var{
+    color: var(--Gray-5, #4a555e);
+
+    /* PP/12 bold */
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+}
+.title-value{
+    color: var(--Gray-5, #4a555e);
+    /* PP/12 */
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%; /* 14.4px */
+}
+.card{
+    margin: 25px 2px;
+    background: white;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.title{
+    color: var(--Gray-5, #4a555e);
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 22px; /* 110% */
+    letter-spacing: -0.2px;
+}
+.linha-etapa{
+    background-color: var(--Azul4);
+    color: white;
+}

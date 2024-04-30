@@ -1,1 +1,63 @@
-/* You can add global styles to this file, and also import other style files */
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital@0;1&display=swap');
+
+:root {
+    /* Variáveis */
+    --blue-color: #1166ec;
+    --yellow-color-comunidade: #ffc906;
+    --grey: #4a555e;
+    --Gray-2: #edf0f2;
+    --blue-panel: #67b3ff;
+    --grey-panel: #ccd1d7;
+    --Gray-1: #f7f9fa;
+    --Vermelho: #e20000;
+    --green: #56c73c;
+    --Azul4: #1166ec;
+    --Gray-5: #4A555E;
+    font-family: "Open Sans";
+}
+html {
+    height: 100%;
+    background-color: var(--Gray-2);
+  
+    .p-dropdown {
+      width: 100%;
+    }
+  
+    .p-multiselect {
+      width: 100% !important;
+    }
+  
+    .p-input {
+      width: 100%;
+    }
+    .p-inputmask {
+      width: 100%;
+    }
+    .p-calendar {
+      width: 100%;
+    }
+  
+    .cursor-pointer {
+      cursor: pointer;
+    }
+  }
+  
+body {
+    height: 100%;
+    margin: unset !important;
+}
+.body-app{
+  padding: 20px;
+}
+.flex{
+  display: flex !important;
+}
+.justify-content-center{
+  justify-content: center !important;
+}
+.flex-column{
+  flex-direction: column;
+}

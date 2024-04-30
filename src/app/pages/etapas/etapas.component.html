@@ -1,0 +1,41 @@
+<div>
+    <div style="display: flex;justify-content: end;margin-bottom: 20px;">
+        <p-button label="nova etapa" icon="pi pi-plus" [text]="true" severity="secondary" (click)="abrirCadastroEtapas()"></p-button>
+    </div>
+    <p-table [value]="etapasList"   [tableStyle]="{ 'min-width': '50rem' }">
+       <ng-template pTemplate="header">
+           <tr>
+               <th>Etapas</th>
+               <th>M.O</th>
+               <th>Material</th>
+               <th>L.S</th>
+               <th>BDI</th>
+               <th>Total</th>
+               <th>% do Total</th>
+
+           </tr>
+       </ng-template>
+       <ng-template pTemplate="body" let-etapa let-index="rowIndex">
+           <tr >
+               <td>{{etapa.nome}}</td>
+               <td>{{getTotalEtapas('MO',etapa.value)}}</td>
+               <td>{{getTotalEtapas('material',etapa.value)}}</td>
+               <td>{{getTotalEtapas('LS',etapa.value)}}</td>
+               <td>{{getTotalEtapas('BDI',etapa.value)}}</td>
+               <td>{{getTotalEtapas('total',etapa.value)}}</td>
+               <td>{{getTotalEtapas('porcentagem',etapa.value)}}</td>
+
+           </tr>
+       </ng-template>
+       <ng-template pTemplate="footer">
+        <tr>
+            <td class="text-right">Mão de Obra</td>
+            <td>34%</td>
+        </tr>
+        <tr>
+            <td class="text-right">Material</td>
+            <td>34%</td>
+        </tr>
+    </ng-template>
+   </p-table>
+</div>

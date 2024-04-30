@@ -1,0 +1,98 @@
+.toolbar {
+    display: flex;
+    height: 100px;
+    // padding-right: 30px;
+    // justify-content: center;
+    align-items: center;
+    gap: 50px;
+    align-self: stretch;
+    background: #FFF;
+    justify-content: space-between;
+    /* Shadow-soft */
+    box-shadow: 0px 2px 40px 0px rgba(42, 44, 60, 0.08);
+
+    .logo-container{
+        width: 30%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        .nome-empresa{
+            // Regular 400 Italic
+            color: var(--grey);
+            text-align: center;
+            font-size: 14px;
+            font-style: italic;
+            font-weight: 400;
+            line-height: 20px; /* 142.857% */
+            letter-spacing: 2.24px;
+        }
+        img {
+            width: 8em;
+        }
+    }
+
+    .texto {
+        color: #4A555E;
+        /* body/14 */
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+    .menu-user{
+        margin: 20px;
+    }
+    .button-user{
+        .p-button{
+            height: 40px;
+            width: 40px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+        }
+
+    }
+}
+.card-menu{
+  margin-top: 20px;
+}
+/*Side menu*/
+.side-menu {
+    .p-panelmenu {
+      .p-panelmenu-panel {
+        align-items: center !important;
+        gap: 10px !important;
+  
+        // background: $yellow-color-comunidade;
+        .p-panelmenu-header-content {
+          background: transparent;
+          border: unset !important;
+        }
+  
+        .p-menuitem-text {
+          /* body/14 UPPERCASE bold */
+          font-size: 14px;
+          font-style: normal;
+          font-weight: 700;
+          line-height: normal;
+          letter-spacing: 2.24px;
+          text-transform: uppercase;
+        }
+  
+        .p-panelmenu-content {
+          border: unset;
+          background: unset;
+  
+          .p-menuitem-text {
+            /* body/14 */
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: normal;
+          }
+        }
+      }
+    }
+  }
+  

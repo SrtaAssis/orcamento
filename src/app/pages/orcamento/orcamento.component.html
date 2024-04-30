@@ -1,0 +1,121 @@
+<div style="margin: 5px;">
+    <span class="title">Orçamento de Obra - Analítico</span>
+</div>
+<div class="grid card">
+    <div class="col-2">
+        <img [src]="cliente.logoUrl" width="200px" (error)="errorUrlPhoto($event)"/>
+    </div>
+    <div class="col-10 grid">
+        <div class="col-4">
+            <span class="var">Cliente: </span><span class="title-value">{{cliente.nome}}</span>
+        </div>
+        <div class="col-4">
+            <span class="var">Telefone: </span><span class="title-value">{{cliente.telefone}}</span>
+        </div>
+        <div class="col-4">
+            <span class="var">Email: </span><span class="title-value">{{cliente.email}}</span>
+        </div>
+        <div class="col-4">
+            <span class="var">Obra: </span><span class="title-value">{{cliente.obra}}</span>
+        </div>
+        <div class="col-4">
+            <span class="var">Área do Terreno: </span><span class="title-value">{{cliente.areaTerreno}}</span>
+        </div>
+        <div class="col-4">
+            <span class="var">Data Previsão: </span><span class="title-value">{{getData(cliente.previsaoInicio)}}</span>
+        </div>
+        <div class="col-4">
+            <span class="var">Endereço: </span><span class="title-value">{{cliente.enderecoCliente}} - {{cliente.cidade}}, {{cliente.estado}}</span>
+        </div>
+        <div class="col-4">
+            <span class="var">BDI: </span><span class="title-value">{{cliente.bdi}}</span>
+        </div>        
+        <div class="col-4">
+            <span class="var">Encargos Sociais: </span><span class="title-value">{{cliente.encargosSociais}}</span>
+        </div>
+    </div>
+
+</div>
+
+<div>
+    <p-table [value]="orcamentos"  dataKey="etapa" editMode="row"
+     rowGroupMode="subheader" groupRowsBy="etapa"  [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+
+            <tr >
+                <th colspan="6"></th>
+                <th colspan="2"><span class="flex justify-content-center">Valor unitário</span></th>
+                <th colspan="2"></th>
+
+            </tr>
+            <tr>
+                <th>Item</th>
+                <th>Base</th>
+                <th>Código</th>
+                <th>Descrição</th>
+                <th>Unidade</th>
+                <th>Qtd</th>
+                <th>Material</th>
+                <th>MO</th>
+                <th>Total</th>
+                <th>Ações</th>
+
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="groupheader" let-orcamento>
+            <tr pRowGroupHeader class="linha-etapa">
+                <td colspan="1">{{orcamento.etapa}}</td>
+                <td colspan="9"><span class="flex justify-content-center">{{getEtapa(orcamento.etapa)}}</span></td>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-orcamento let-editing="editing" let-ri="rowIndex">
+            <tr [pEditableRow]="orcamento">
+                <td>1.1</td>
+                <td>sinap</td>
+                <td>{{orcamento.dados.codigo}}</td>
+                <td>{{orcamento.dados.descricao}}</td>
+                <td>{{orcamento.dados.unidade}}</td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <p-inputNumber  [(ngModel)]="orcamento.dados.quantidade"> </p-inputNumber>    
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{orcamento.dados.quantidade}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <p-inputNumber  [(ngModel)]="orcamento.dados.valorUnitario.material"> </p-inputNumber>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{orcamento.dados.valorUnitario.material}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <p-inputNumber  [(ngModel)]="orcamento.dados.valorUnitario.maoDeObra"> </p-inputNumber>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{orcamento.dados.valorUnitario.maoDeObra}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>{{getValorTotal(orcamento.dados)}}</td>
+                <td>
+                    <div class="flex align-items-center justify-content-center gap-2">
+                        <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(orcamento)" class="p-button-rounded p-button-text"></button>
+                        <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(orcamento)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                        <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(orcamento, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
