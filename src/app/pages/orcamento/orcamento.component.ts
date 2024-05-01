@@ -10,11 +10,12 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastService } from '../../core/service/toast.service';
 import { InputTextModule } from 'primeng/inputtext';
 import { OrcamentoStorageService } from '../../core/storage/orcamento-storage.service';
+import { BotoesExportacaoComponent } from '../../core/component/botoes-exportacao/botoes-exportacao.component';
 
 @Component({
   selector: 'app-orcamento',
   standalone: true,
-  imports: [CommonModule,TableModule,ButtonModule,FormsModule,ReactiveFormsModule,InputTextModule],
+  imports: [CommonModule,TableModule,ButtonModule,FormsModule,ReactiveFormsModule,InputTextModule,BotoesExportacaoComponent],
   providers:[DatePipe],
   templateUrl: './orcamento.component.html',
   styleUrl: './orcamento.component.scss'
@@ -25,6 +26,7 @@ export class OrcamentoComponent implements OnInit{
   clonedOrcamento: { [s: number]: OrcamentoModel } = {};
 
   orcamentos:OrcamentoModel[] = [];
+  gerandoPdf:boolean = false;
   constructor(
     private clienteStorage:ClienteStorageService,
     private orcamentoStorage:OrcamentoStorageService,
@@ -79,5 +81,13 @@ export class OrcamentoComponent implements OnInit{
   onRowEditCancel(orcamento: OrcamentoModel, index: number) {
       this.orcamentos[index] = this.clonedOrcamento[orcamento.dados.codigo as number];
       delete this.clonedOrcamento[orcamento.dados.codigo as number];
+  }
+
+  inicioProcessamento(tipo: string): void {
+    this.gerandoPdf = true;
+  }
+
+  fimProcessamento(tipo: string): void {
+    this.gerandoPdf = false;
   }
 }

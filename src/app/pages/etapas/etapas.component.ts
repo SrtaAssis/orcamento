@@ -13,11 +13,12 @@ import { ClienteStorageService } from '../../core/storage/cliente-storage.servic
 import { Cliente } from '../../core/model/cliente';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { NovaEtapaComponent } from './nova-etapa/nova-etapa.component';
+import { KformatterPipe } from '../../core/pipe/kformatter.pipe';
 
 @Component({
   selector: 'app-etapas',
   standalone: true,
-  imports: [CommonModule,FormsModule,InputTextModule,ReactiveFormsModule,ButtonModule,TableModule],
+  imports: [CommonModule,FormsModule,InputTextModule,ReactiveFormsModule,ButtonModule,TableModule,KformatterPipe],
   providers: [DialogService],
   templateUrl: './etapas.component.html',
   styleUrl: './etapas.component.scss'
@@ -27,6 +28,14 @@ export class EtapasComponent implements OnInit{
   orcamentoCliente:OrcamentoModel[] = [];
   cliente:Cliente = new Cliente();
   ref: DynamicDialogRef | undefined;
+  MOTotal:number;
+  materialTotal:number;
+  LSTotal:number;
+  totalAll:number;
+  BDITotal:number;
+  porcentagemTotal:number;
+  porcentagemMO:number;
+  porcentagemMaterial:number;
 
   constructor(
     private etapasStorage:EtapasStorageService,
@@ -44,6 +53,7 @@ export class EtapasComponent implements OnInit{
     this.etapasList = this.etapasStorage.etapas;
     this.orcamentoCliente = this.orcamentoStorage.orcamentos;
     this.cliente = this.clienteStorage.cliente;
+    this.getTotal();
   }
  
   abrirCadastroEtapas(){
@@ -56,14 +66,25 @@ export class EtapasComponent implements OnInit{
     }
 });
   }
+  getTotal(){
+    this.MOTotal = this.orcamentoCliente.map(o=>o.dados.valorUnitario.maoDeObra*o.dados.quantidade).reduce((a,b)=>(a+b),0);
+    this.materialTotal = this.orcamentoCliente.map(o=>o.dados.valorUnitario.material*o.dados.quantidade).reduce((a,b)=>a+b,0);
+    this.LSTotal = this.MOTotal*(this.cliente.encargosSociais/100);
+    this.BDITotal = (this.MOTotal+this.materialTotal+this.LSTotal)*(this.cliente.bdi/100);
+    this.totalAll = this.MOTotal+this.materialTotal+this.LSTotal+this.BDITotal;
+    this.porcentagemTotal = 100;
+    this.porcentagemMO = ((this.MOTotal+this.LSTotal+this.BDITotal)/this.totalAll)*100;
+    this.porcentagemMaterial = ((this.materialTotal)/this.totalAll)*100;
+
+  }
 
   getTotalEtapas(tipo,value){
-    const MO = this.orcamentoCliente.filter(o=>o.etapa == value).map(o=>o.dados.valorUnitario.maoDeObra).reduce((a,b)=>a+b,0);
-    const material = this.orcamentoCliente.filter(o=>o.etapa == value).map(o=>o.dados.valorUnitario.material).reduce((a,b)=>a+b,0);
-    const LS = MO*this.cliente.encargosSociais;
-    const total = MO+material;
-    const BDI = (total+LS)*this.cliente.bdi;
-    const porcentagem = total;
+    const MO = this.orcamentoCliente.filter(o=>o.etapa == value).map(o=>o.dados.valorUnitario.maoDeObra*o.dados.quantidade).reduce((a,b)=>a+b,0);
+    const material = this.orcamentoCliente.filter(o=>o.etapa == value).map(o=>o.dados.valorUnitario.material*o.dados.quantidade).reduce((a,b)=>a+b,0);
+    const LS = MO*(this.cliente.encargosSociais/100);
+    const BDI = (MO+material+LS)*(this.cliente.bdi/100);
+    const total = MO+material+BDI+LS;
+    const porcentagem =(total/this.totalAll)*100;
 
     switch (tipo){
       case 'MO':
