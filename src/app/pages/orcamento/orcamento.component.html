@@ -1,10 +1,18 @@
 <ng-container>
-    <app-botoes-exportacao 
-    parentId="relatorio-final" 
-    [nomeRelatorio]="'relatorio-orçamento-'+cliente.obra"
-    (fimProcessamento)="fimProcessamento($event)"
-    (inicioProcessamento)="inicioProcessamento($event)">
-  </app-botoes-exportacao>
+
+    <div class="botoes-orcamento gap-2">
+
+        <app-botoes-exportacao 
+            parentId="relatorio-final" 
+            [nomeRelatorio]="'relatorio-orçamento-'+cliente.obra">
+        </app-botoes-exportacao>
+
+        <p-button  (click)="novoOrcamento()" icon="pi pi-plus" label="Novo orcamento" [text]="true" severity="secondary">
+
+        </p-button>
+
+    </div>
+
 </ng-container>
 <div id="relatorio-final">
     <div style="margin: 5px;">

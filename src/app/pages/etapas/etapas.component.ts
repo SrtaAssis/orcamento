@@ -59,12 +59,12 @@ export class EtapasComponent implements OnInit{
   abrirCadastroEtapas(){
     this.ref = this.dialogService.open(NovaEtapaComponent, { 
       header: 'Cadastrar Nova Etapa',
-  });
-  this.ref.onClose.subscribe((refresh: boolean) => {
-    if (refresh) {
-        this.configTabela();
-    }
-});
+    });
+    this.ref.onClose.subscribe((refresh: boolean) => {
+      if (refresh) {
+          this.configTabela();
+      }
+    });
   }
   getTotal(){
     this.MOTotal = this.orcamentoCliente.map(o=>o.dados.valorUnitario.maoDeObra*o.dados.quantidade).reduce((a,b)=>(a+b),0);

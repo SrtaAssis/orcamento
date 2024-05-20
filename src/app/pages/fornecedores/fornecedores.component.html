@@ -1,1 +1,46 @@
-<p>fornecedores works!</p>
+<div>
+    <div style="display: flex;justify-content: end;margin-bottom: 20px;">
+        <p-button label="novo fornecedor" icon="pi pi-plus" [text]="true" severity="secondary" (click)="abrirCadastroFornecedores()"></p-button>
+    </div>
+    <p-table [value]="fornecedores"   [tableStyle]="{ 'min-width': '50rem' }">
+       <ng-template pTemplate="header">
+           <tr>
+               <th>Código</th>
+               <th>Produto</th>
+               <th>Preço</th>
+               <th>Unidade</th>
+               <th>Empresa</th>
+               <!-- <th>CNPJ</th> -->
+               <!-- <th>Telefone</th> -->
+               <th>e-mail</th>
+               <!-- <th>Rua</th>
+               <th>Cidade</th>
+               <th>CEP</th> -->
+               <th>Prazo de entrega</th>
+               <!-- <th>Compra mínima</th>
+               <th>Garantia oferecida</th> -->
+               <th>Estimativa de mão de obra</th>
+           </tr>
+       </ng-template>
+       <ng-template pTemplate="body" let-fornecedor let-index="rowIndex">
+           <tr >
+               <td>{{fornecedor.dados.codigo}}</td>
+               <td>{{fornecedor.dados.descricao}}</td>
+               <td>{{fornecedor.dados.valorUnitario.material}}</td>
+               <td>{{fornecedor.dados.unidade}}</td>
+               <td>{{fornecedor.dados.fornecedor.empresa}}</td>
+               <!-- <td>{{fornecedor.dados.fornecedor.cnpj}}</td>
+               <td>{{fornecedor.dados.contato.telefone}}</td> -->
+               <td>{{fornecedor.dados.contato.email}}</td>
+               <!-- <td>{{fornecedor.dados.endereco.rua}}</td>
+               <td>{{fornecedor.dados.endereco.cidade}}</td>
+               <td>{{fornecedor.dados.endereco.cep}}</td> -->
+               <td>{{fornecedor.dados.pagamento.prazoEntrega}}</td>
+               <!-- <td>{{fornecedor.dados.pagamento.compraMinima}}</td>
+               <td>{{fornecedor.dados.pagamento.garantiaOferecida}}</td> -->
+               <td>{{fornecedor.dados.valorUnitario.dados}}</td>
+
+           </tr>
+       </ng-template>
+   </p-table>
+</div>

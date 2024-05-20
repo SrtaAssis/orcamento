@@ -1,0 +1,38 @@
+<form [formGroup]="form">
+    <div class="grid">
+        <div class="col-12 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Etapa</label>
+            <p-dropdown 
+            [options]="etapas" 
+            formControlName="etapa"
+            optionLabel="nome" 
+            placeholder="Selecione uma etapa" />
+        </div>
+        <div class="col-12 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Etapa</label>
+            <p-dropdown 
+            [options]="tipos" 
+            (onChange)="changeOrcamentoTipo($event)"
+            formControlName="tipo"
+            optionLabel="nome" 
+            placeholder="Selecione uma etapa" />
+            [options]="orcamentosList" 
+            formControlName="codigo"
+            optionLabel="descricao" 
+            optionValue="codigo" 
+
+        </div>
+        <div class="col-12 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Orçamento</label>
+            <p-autoComplete 
+            formControlName="codigo"
+            [suggestions]="filtredOrcamentos" 
+            (completeMethod)="filterOrcamento($event)" 
+            field="name" />
+        </div>
+    </div>
+ 
+</form>
+<div class="button-salvar">
+    <p-button label="Salvar" icon="pi pi-check" (click)="salvar()"></p-button>
+</div>

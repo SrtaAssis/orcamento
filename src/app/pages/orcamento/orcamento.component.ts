@@ -11,12 +11,14 @@ import { ToastService } from '../../core/service/toast.service';
 import { InputTextModule } from 'primeng/inputtext';
 import { OrcamentoStorageService } from '../../core/storage/orcamento-storage.service';
 import { BotoesExportacaoComponent } from '../../core/component/botoes-exportacao/botoes-exportacao.component';
+import { DynamicDialogRef, DialogService } from 'primeng/dynamicdialog';
+import { NovoOrcamentoComponent } from './novo-orcamento/novo-orcamento.component';
 
 @Component({
   selector: 'app-orcamento',
   standalone: true,
   imports: [CommonModule,TableModule,ButtonModule,FormsModule,ReactiveFormsModule,InputTextModule,BotoesExportacaoComponent],
-  providers:[DatePipe],
+  providers:[DatePipe,DialogService],
   templateUrl: './orcamento.component.html',
   styleUrl: './orcamento.component.scss'
 })
@@ -27,11 +29,16 @@ export class OrcamentoComponent implements OnInit{
 
   orcamentos:OrcamentoModel[] = [];
   gerandoPdf:boolean = false;
+
+  ref: DynamicDialogRef | undefined;
+
   constructor(
     private clienteStorage:ClienteStorageService,
     private orcamentoStorage:OrcamentoStorageService,
     private datePipe: DatePipe,
-    private toast:ToastService
+    private toast:ToastService,
+    public dialogService: DialogService
+
 
   ){}
 
@@ -44,6 +51,17 @@ export class OrcamentoComponent implements OnInit{
     this.orcamentos = this.orcamentoStorage.orcamentos;
   }
 
+  novoOrcamento(){
+    this.ref = this.dialogService.open(NovoOrcamentoComponent, { 
+      header: 'Cadastrar Novo Orçamento',
+    });
+    this.ref.onClose.subscribe((refresh: boolean) => {
+      if (refresh) {
+          this.getOrcamentos();
+      }
+    });
+  }
+  
   getData(data) {
     const dateFormat: string = "dd/MM/yyyy";
 

@@ -35,3 +35,11 @@
     background-color: var(--Azul4);
     color: white;
 }
+.botoes-orcamento{
+    display: flex;
+    align-items: center;
+    padding: 4px;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+
+}

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { OrcamentoModel } from '../model/orcamento';
+import { TipoOrcamento } from '../enum/etapa copy';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class OrcamentoStorageService {
   constructor() {
     this._orcamentos = [{
       etapa:1,
+      tipo:TipoOrcamento.SINAP,
       dados:{
         codigo:90778,
         descricao:"ENGENHEIRO CIVIL DE OBRA PLENO COM ENCARGOS COMPLEMENTARES",
@@ -20,12 +22,12 @@ export class OrcamentoStorageService {
           maoDeObra:84.54,
           material:1.44
         },
-        total:0,
         unidade:'H'
       }
     },
     {
       etapa:1,
+      tipo:TipoOrcamento.SINAP,
       dados:{
         codigo:90778,
         descricao:"ENGENHEIRO CIVIL DE OBRA PLENO COM ENCARGOS COMPLEMENTARES",
@@ -34,12 +36,12 @@ export class OrcamentoStorageService {
           maoDeObra:84.54,
           material:1.44
         },
-        total:0,
         unidade:'H'
       }
     },
     {
       etapa:1,
+      tipo:TipoOrcamento.SINAP,
       dados:{
         codigo:90778,
         descricao:"ENGENHEIRO CIVIL DE OBRA PLENO COM ENCARGOS COMPLEMENTARES",
@@ -48,12 +50,12 @@ export class OrcamentoStorageService {
           maoDeObra:84.54,
           material:1.44
         },
-        total:0,
         unidade:'H'
       }
     },
     {
       etapa:2,
+      tipo:TipoOrcamento.SINAP,
       dados:{
         codigo:90778,
         descricao:"ENGENHEIRO CIVIL DE OBRA PLENO COM ENCARGOS COMPLEMENTARES",
@@ -62,7 +64,6 @@ export class OrcamentoStorageService {
           maoDeObra:84.54,
           material:1.44
         },
-        total:0,
         unidade:'H'
       }
     }];
@@ -73,4 +74,5 @@ export class OrcamentoStorageService {
   }
   get orcamentos(){
     return this._orcamentos;
-  }}
+  }
+}

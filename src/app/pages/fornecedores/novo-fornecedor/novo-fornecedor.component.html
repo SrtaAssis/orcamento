@@ -1,0 +1,68 @@
+<form [formGroup]="form">
+    <div class="grid">
+        <div class="col-12 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Descrição</label>
+            <input type="text" pInputText formControlName="descricao"/>
+        </div>
+        <div class="col-4 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Material</label>
+            <p-inputNumber inputId="integeronly" formControlName="material" />
+        </div>
+        <div class="col-4 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Mão De Obra</label>
+            <p-inputNumber formControlName="maoDeObra"> </p-inputNumber>
+        </div>
+        <div class="col-4 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Unidade</label>
+            <p-inputNumber formControlName="unidade"> </p-inputNumber>
+        </div>
+        <div class="col-6 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Empresa</label>
+            <input type="text" pInputText formControlName="empresa"/>
+        </div>
+        <!-- <div class="col-6 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">CNPJ</label>
+            <p-inputMask mask="99.999.999/9999-99" formControlName="cnpj" placeholder="99.999.999./9999-99"></p-inputMask>
+        </div>
+        <div class="col-6 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Telefone</label>
+            <p-inputMask mask="(99) 9 9999-9999" formControlName="telefone" placeholder="(99) 9 9999-9999"></p-inputMask>
+        </div> -->
+        <div class="col-4 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Email</label>
+            <input type="email" pInputText formControlName="email"/>
+        </div>
+        <div class="col-12 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Endereço</label>
+            <input type="text" pInputText formControlName="endereco"/>
+        </div>
+        <div class="col-4 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Cidade</label>
+            <input type="text" pInputText formControlName="cidade"/>
+        </div>
+        <div class="col-4 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Estado</label>
+            <input type="text" pInputText formControlName="estado"/>
+        </div>
+        <!-- <div class="col-6 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">CEP</label>
+            <p-inputMask mask="99999-999"formControlName="telefone" placeholder="99999-999"></p-inputMask>
+        </div>
+        <div class="col-6 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Compra Minima</label>
+            <p-inputMask formControlName="compraMinima" placeholder="99999-999"></p-inputMask>
+        </div>
+        <div class="col-6 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Garantia Oferecida</label>
+            <p-inputMask formControlName="garantiaOferecida" placeholder="99999-999"></p-inputMask>
+        </div>
+        <div class="col-6 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Prazo de Entrega</label>
+            <p-inputMask formControlName="prazoEntrega"></p-inputMask>
+        </div> -->
+    </div>
+ 
+</form>
+<div class="button-salvar">
+    <p-button label="Salvar" icon="pi pi-check" (click)="salvar()"></p-button>
+</div>
