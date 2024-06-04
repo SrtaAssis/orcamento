@@ -1,1 +1,13 @@
-<p>bases works!</p>
+<div>
+
+    <input
+    #fileUploadSimple
+    [accept]="'.xlsx'"
+    type="file"
+    class="file-input"
+    (change)="uploadArquivo($event)"
+    hidden="true"
+  />
+  <p-button label="Atualizar dados do SINAP" (click)="fileUploadSimple.click()">
+  </p-button>
+</div>

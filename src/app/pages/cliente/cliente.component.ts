@@ -13,6 +13,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { CardModule } from 'primeng/card';
 import { ToastService } from '../../core/service/toast.service';
 import { SpinnerService } from '../../core/service/spinner.service';
+import { ClienteService } from '../../core/service/cliente.service';
+import { InfoTable } from '../../core/model/info-table';
 
 @Component({
   selector: 'app-cliente',
@@ -27,10 +29,12 @@ export class ClienteComponent implements OnInit{
   cliente:Cliente = new Cliente();
   constructor(private clienteStorage:ClienteStorageService,
     private toastService:ToastService,
-    private spinnerService:SpinnerService
+    private spinnerService:SpinnerService,
+    private clienteService:ClienteService
   ){}
 
   ngOnInit(): void {
+    this.getCliente();
     this.cliente = this.clienteStorage.cliente;
     this.buildForm();
   }
@@ -63,13 +67,36 @@ export class ClienteComponent implements OnInit{
     }
   }
 
+  getCliente(){
+    this.spinnerService.show();
+    this.clienteService.getCliente().subscribe({
+      next: (result) => {
+        // this.cliente = result;
+        this.spinnerService.hide();
+
+      }, error: (err) => {
+        this.spinnerService.hide();
+      }
+    });
+  }
+
   salvar(){
+    this.spinnerService.show();
     if(this.form.invalid){
       this.toastService.showWarn('Info',"Preencha todos os campos necessários");
+      this.spinnerService.hide();
       return
     }
-    this.clienteStorage.cliente = this.form.value;
-    this.toastService.showSuccess('Salvo',"Salvo com sucesso!");
+
+    this.clienteService.salvar( this.form.value).subscribe({
+      next: (result) => {
+        this.toastService.showSuccess('Salvo',"Salvo com sucesso!");
+        this.spinnerService.hide();
+
+      }, error: (err) => {
+        this.spinnerService.hide();
+      }
+    });
 
   }
 }

@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<!-- <form [formGroup]="form">
     <div class="grid">
         <div class="col-12 flex flex-column">
             <label class="mb-2 block font-bold" for="stacked">Descrição</label>
@@ -6,11 +6,11 @@
         </div>
         <div class="col-4 flex flex-column">
             <label class="mb-2 block font-bold" for="stacked">Material</label>
-            <p-inputNumber inputId="integeronly" formControlName="material" />
+            <p-inputNumber inputId="integeronly" formControlName="material" [maxFractionDigits]="2"/>
         </div>
         <div class="col-4 flex flex-column">
             <label class="mb-2 block font-bold" for="stacked">Mão De Obra</label>
-            <p-inputNumber formControlName="maoDeObra"> </p-inputNumber>
+            <p-inputNumber formControlName="maoDeObra" [maxFractionDigits]="2" > </p-inputNumber>
         </div>
         <div class="col-4 flex flex-column">
             <label class="mb-2 block font-bold" for="stacked">Unidade</label>
@@ -20,15 +20,15 @@
             <label class="mb-2 block font-bold" for="stacked">Empresa</label>
             <input type="text" pInputText formControlName="empresa"/>
         </div>
-        <!-- <div class="col-6 flex flex-column">
+        <div class="col-6 flex flex-column">
             <label class="mb-2 block font-bold" for="stacked">CNPJ</label>
             <p-inputMask mask="99.999.999/9999-99" formControlName="cnpj" placeholder="99.999.999./9999-99"></p-inputMask>
         </div>
         <div class="col-6 flex flex-column">
             <label class="mb-2 block font-bold" for="stacked">Telefone</label>
             <p-inputMask mask="(99) 9 9999-9999" formControlName="telefone" placeholder="(99) 9 9999-9999"></p-inputMask>
-        </div> -->
-        <div class="col-4 flex flex-column">
+        </div>
+        <div class="col-6 flex flex-column">
             <label class="mb-2 block font-bold" for="stacked">Email</label>
             <input type="email" pInputText formControlName="email"/>
         </div>
@@ -36,33 +36,114 @@
             <label class="mb-2 block font-bold" for="stacked">Endereço</label>
             <input type="text" pInputText formControlName="endereco"/>
         </div>
-        <div class="col-4 flex flex-column">
+        <div class="col-6 flex flex-column">
             <label class="mb-2 block font-bold" for="stacked">Cidade</label>
             <input type="text" pInputText formControlName="cidade"/>
         </div>
-        <div class="col-4 flex flex-column">
+        <div class="col-6 flex flex-column">
             <label class="mb-2 block font-bold" for="stacked">Estado</label>
             <input type="text" pInputText formControlName="estado"/>
         </div>
-        <!-- <div class="col-6 flex flex-column">
+        <div class="col-6 flex flex-column">
             <label class="mb-2 block font-bold" for="stacked">CEP</label>
-            <p-inputMask mask="99999-999"formControlName="telefone" placeholder="99999-999"></p-inputMask>
+            <p-inputMask mask="99999-999" formControlName="cep" placeholder="99999-999"></p-inputMask>
         </div>
         <div class="col-6 flex flex-column">
             <label class="mb-2 block font-bold" for="stacked">Compra Minima</label>
-            <p-inputMask formControlName="compraMinima" placeholder="99999-999"></p-inputMask>
+            <p-inputNumber formControlName="compraMinima"> </p-inputNumber>
         </div>
         <div class="col-6 flex flex-column">
             <label class="mb-2 block font-bold" for="stacked">Garantia Oferecida</label>
-            <p-inputMask formControlName="garantiaOferecida" placeholder="99999-999"></p-inputMask>
+            <p-inputNumber formControlName="garantiaOferecida"> </p-inputNumber>
         </div>
         <div class="col-6 flex flex-column">
             <label class="mb-2 block font-bold" for="stacked">Prazo de Entrega</label>
-            <p-inputMask formControlName="prazoEntrega"></p-inputMask>
-        </div> -->
+            <p-inputNumber formControlName="prazoEntrega"> </p-inputNumber>
+        </div>
     </div>
  
-</form>
+</form> -->
+<div class="grid">
+    <form class="col-12" [formGroup]="form">
+        <div class="col-6 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Descrição</label>
+            <input type="text" pInputText formControlName="descricao"/>
+        </div>
+        <div class="col-6 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Unidade</label>
+            <input type="text" pInputText formControlName="unidade"/>
+        </div>
+    </form>
+    <label class="col-12 titulo font-bold" for="stacked">Valor unitário</label>
+    <form class="col-12" [formGroup]="formValorUnitario">
+        <div class="col-6 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Material</label>
+            <p-inputNumber inputId="integeronly" formControlName="material" [maxFractionDigits]="2"/>
+        </div>
+        <div class="col-6 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Mão De Obra</label>
+            <p-inputNumber formControlName="maoDeObra" [maxFractionDigits]="2" > </p-inputNumber>
+        </div>
+    </form>
+    <label class="col-12 flex titulo font-bold" for="stacked">Contato</label>
+    <form class="col-12 flex" [formGroup]="formContato">
+        <div class="col-6 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Telefone</label>
+            <p-inputMask mask="(99) 9 9999-9999" formControlName="telefone" placeholder="(99) 9 9999-9999"></p-inputMask>
+        </div>
+        <div class="col-6 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Email</label>
+            <input type="email" pInputText formControlName="email"/>
+        </div>
+    </form>
+    <label class="col-12 titulo font-bold" for="stacked">Fornecedor</label>
+    <form class="col-12" [formGroup]="formfornecedor">
+        <div class="col-6 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Empresa</label>
+            <input type="text" pInputText formControlName="empresa"/>
+        </div>
+        <div class="col-6 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">CNPJ</label>
+            <p-inputMask mask="99.999.999/9999-99" formControlName="cnpj" placeholder="99.999.999./9999-99"></p-inputMask>
+        </div>
+    </form>
+    <label class="col-12 titulo font-bold" for="stacked">Pagamento</label>
+    <form class="col-12" [formGroup]="formpagamento">
+        <div class="col-4 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Compra Minima</label>
+            <p-inputNumber formControlName="compraMinima"> </p-inputNumber>
+        </div>
+        <div class="col-4 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Garantia Oferecida</label>
+            <p-inputNumber formControlName="garantiaOferecida"> </p-inputNumber>
+        </div>
+        <div class="col-4 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Prazo de Entrega</label>
+            <p-inputNumber formControlName="prazoEntrega"> </p-inputNumber>
+        </div>
+    </form>
+    <label class="col-12 titulo font-bold" for="stacked">Endereço</label>
+
+    <form class="col-12" [formGroup]="formEndereco">
+        <div class="col-6 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Endereço</label>
+            <input type="text" pInputText formControlName="endereco"/>
+        </div>
+        <div class="col-6 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Cidade</label>
+            <input type="text" pInputText formControlName="cidade"/>
+        </div>
+        <div class="col-6 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Estado</label>
+            <input type="text" pInputText formControlName="estado"/>
+        </div>
+        <div class="col-6 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">CEP</label>
+            <p-inputMask mask="99999-999" formControlName="cep" placeholder="99999-999"></p-inputMask>
+        </div>
+    </form>
+</div>
+ 
 <div class="button-salvar">
     <p-button label="Salvar" icon="pi pi-check" (click)="salvar()"></p-button>
 </div>

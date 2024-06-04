@@ -13,6 +13,9 @@ import { OrcamentoStorageService } from '../../core/storage/orcamento-storage.se
 import { BotoesExportacaoComponent } from '../../core/component/botoes-exportacao/botoes-exportacao.component';
 import { DynamicDialogRef, DialogService } from 'primeng/dynamicdialog';
 import { NovoOrcamentoComponent } from './novo-orcamento/novo-orcamento.component';
+import { OrcamentoService } from '../../core/service/orcamento.service';
+import { SpinnerService } from '../../core/service/spinner.service';
+import { ClienteService } from '../../core/service/cliente.service';
 
 @Component({
   selector: 'app-orcamento',
@@ -37,27 +40,56 @@ export class OrcamentoComponent implements OnInit{
     private orcamentoStorage:OrcamentoStorageService,
     private datePipe: DatePipe,
     private toast:ToastService,
-    public dialogService: DialogService
+    public dialogService: DialogService,
+    private spinnerService:SpinnerService,
+    private orcamentoService:OrcamentoService,
+    private clienteService:ClienteService
+
 
 
   ){}
 
   ngOnInit(): void {
-    this.cliente = this.clienteStorage.cliente;
-    this.getOrcamentos();
-  }
-  
-  getOrcamentos(){
-    this.orcamentos = this.orcamentoStorage.orcamentos;
+    this.getCliente();
+    this.getOrcamentos();    
+
   }
 
-  novoOrcamento(){
+  getCliente(){
+    this.clienteService.getCliente().subscribe({
+      next: (result) => {
+        this.cliente = result;
+        this.spinnerService.hide();
+
+      }, error: (err) => {
+        this.spinnerService.hide();
+      }
+    });
+  }
+
+  getOrcamentos(){
+    this.orcamentoService.getOrcamento().subscribe({
+      next: (result) => {
+        this.orcamentos = result;
+        this.spinnerService.hide();
+
+      }, error: (err) => {
+        this.spinnerService.hide();
+      }
+    });
+  }
+
+  novoOrcamento(orcamento?){
     this.ref = this.dialogService.open(NovoOrcamentoComponent, { 
       header: 'Cadastrar Novo Orçamento',
+      width:'60%',
+      data:{orcamento}
     });
     this.ref.onClose.subscribe((refresh: boolean) => {
       if (refresh) {
-          this.getOrcamentos();
+        console.log("refresh");
+        
+        this.getOrcamentos();
       }
     });
   }
@@ -81,24 +113,6 @@ export class OrcamentoComponent implements OnInit{
 
   errorUrlPhoto(evt){
     evt.target.src = '/assets/fotos/sem_foto.png';
-  }
-
-  onRowEditInit(orcamento: OrcamentoModel) {
-    this.clonedOrcamento[orcamento.dados.codigo as number] = { ...orcamento };
-  }
-
-  onRowEditSave(orcamento: OrcamentoModel) {
-      if (orcamento.dados.valorUnitario.maoDeObra > 0) {
-          delete this.clonedOrcamento[orcamento.dados.codigo as number];
-          this.toast.showSuccess('','Orcamento foi editado');
-      } else {
-        this.toast.showError('Valor inválido');
-      }
-  }
-
-  onRowEditCancel(orcamento: OrcamentoModel, index: number) {
-      this.orcamentos[index] = this.clonedOrcamento[orcamento.dados.codigo as number];
-      delete this.clonedOrcamento[orcamento.dados.codigo as number];
   }
 
   inicioProcessamento(tipo: string): void {

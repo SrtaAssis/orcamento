@@ -6,6 +6,9 @@ import { EtapasStorageService } from '../../../core/storage/etapas-storage.servi
 import { EtapaModel } from '../../../core/model/etapa-model';
 import { ButtonModule } from 'primeng/button';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { EtapaService } from '../../../core/service/etapa.service';
+import { ToastService } from '../../../core/service/toast.service';
+import { SpinnerService } from '../../../core/service/spinner.service';
 
 @Component({
   selector: 'app-nova-etapa',
@@ -20,7 +23,10 @@ export class NovaEtapaComponent implements OnInit{
   etapaNova:EtapaModel = new EtapaModel();
   constructor(
     private etapasStorage:EtapasStorageService,
-    public ref: DynamicDialogRef
+    public ref: DynamicDialogRef,
+    private etapaService:EtapaService,
+    private toastService:ToastService,
+    private spinnerService:SpinnerService,
   ){}
 
   ngOnInit(): void {
@@ -33,12 +39,26 @@ export class NovaEtapaComponent implements OnInit{
 
   salvar(){
     if(!this.etapaNova.nome){
-      return;
+      this.toastService.showWarn('Info',"Preencha todos os campos necessários");
+      this.spinnerService.hide();
+      return
     }
+    this.spinnerService.show();
     this.etapaNova.value = this.etapas.length+1;
-    this.etapas.push(this.etapaNova)
-    this.etapasStorage.etapas = this.etapas;
-    this.closeDialog(true);
+    // this.etapas.push(this.etapaNova)
+    // this.etapasStorage.etapas = this.etapas;
+    this.etapaService.salvar(this.etapaNova).subscribe({
+      next: (result) => {
+        this.toastService.showSuccess('Salvo',"Salvo com sucesso!");
+        this.spinnerService.hide();
+        this.closeDialog(true);
+
+      }, error: (err) => {
+        this.toastService.showError(err);
+        this.spinnerService.hide();
+        this.closeDialog(false);
+      }
+    });
   }
 
   closeDialog(data?) {

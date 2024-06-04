@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TipoOrcamento } from '../enum/etapa copy';
+import { TipoOrcamento } from '../enum/tipo-orcamento';
 import { OrcamentoDados, OrcamentoModel } from '../model/orcamento';
 
 @Injectable({
@@ -12,8 +12,18 @@ export class SinapStorageService {
   
   constructor() {
     this._orcamentos = [{
-      codigo:1,
-      descricao:"ENGENHEIRO CIVIL DE OBRA PLENO COM ENCARGOS COMPLEMENTARES",
+      id:1,
+      descricao:"TESTE 01",
+      quantidade:2,
+      valorUnitario:{
+        maoDeObra:234,
+        material:1.44
+      },
+      unidade:'H'
+    },
+    {
+      id:2,
+      descricao:"TESTE 02",
       quantidade:2,
       valorUnitario:{
         maoDeObra:84.54,
@@ -22,8 +32,8 @@ export class SinapStorageService {
       unidade:'H'
     },
     {
-      codigo:2,
-      descricao:"ENGENHEIRO CIVIL DE OBRA PLENO COM ENCARGOS COMPLEMENTARES",
+      id:3,
+      descricao:"TESTE 03",
       quantidade:2,
       valorUnitario:{
         maoDeObra:84.54,
@@ -32,8 +42,8 @@ export class SinapStorageService {
       unidade:'H'
     },
     {
-      codigo:3,
-      descricao:"ENGENHEIRO CIVIL DE OBRA PLENO COM ENCARGOS COMPLEMENTARES",
+      id:4,
+      descricao:"TESTE 04",
       quantidade:2,
       valorUnitario:{
         maoDeObra:84.54,
@@ -42,8 +52,8 @@ export class SinapStorageService {
       unidade:'H'
     },
     {
-      codigo:4,
-      descricao:"ENGENHEIRO CIVIL DE OBRA PLENO COM ENCARGOS COMPLEMENTARES",
+      id:5,
+      descricao:"TESTE 05",
       quantidade:2,
       valorUnitario:{
         maoDeObra:84.54,
@@ -52,8 +62,8 @@ export class SinapStorageService {
       unidade:'H'
     },
     {
-      codigo:5,
-      descricao:"ENGENHEIRO CIVIL DE OBRA PLENO COM ENCARGOS COMPLEMENTARES",
+      id:6,
+      descricao:"TESTE 06",
       quantidade:2,
       valorUnitario:{
         maoDeObra:84.54,
@@ -62,18 +72,8 @@ export class SinapStorageService {
       unidade:'H'
     },
     {
-      codigo:6,
-      descricao:"ENGENHEIRO CIVIL DE OBRA PLENO COM ENCARGOS COMPLEMENTARES",
-      quantidade:2,
-      valorUnitario:{
-        maoDeObra:84.54,
-        material:1.44
-      },
-      unidade:'H'
-    },
-    {
-      codigo:7,
-      descricao:"ENGENHEIRO CIVIL DE OBRA PLENO COM ENCARGOS COMPLEMENTARES",
+      id:7,
+      descricao:"TESTE 07",
       quantidade:2,
       valorUnitario:{
         maoDeObra:84.54,

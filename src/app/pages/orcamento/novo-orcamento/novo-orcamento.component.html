@@ -6,33 +6,93 @@
             [options]="etapas" 
             formControlName="etapa"
             optionLabel="nome" 
+            optionValue="value" 
+
             placeholder="Selecione uma etapa" />
         </div>
         <div class="col-12 flex flex-column">
-            <label class="mb-2 block font-bold" for="stacked">Etapa</label>
+            <label class="mb-2 block font-bold" for="stacked">Tipo orçamento</label>
             <p-dropdown 
             [options]="tipos" 
             (onChange)="changeOrcamentoTipo($event)"
             formControlName="tipo"
-            optionLabel="nome" 
-            placeholder="Selecione uma etapa" />
-            [options]="orcamentosList" 
-            formControlName="codigo"
-            optionLabel="descricao" 
-            optionValue="codigo" 
+            placeholder="Selecione o tipo de orçamento" />
 
         </div>
-        <div class="col-12 flex flex-column">
-            <label class="mb-2 block font-bold" for="stacked">Orçamento</label>
-            <p-autoComplete 
-            formControlName="codigo"
-            [suggestions]="filtredOrcamentos" 
-            (completeMethod)="filterOrcamento($event)" 
-            field="name" />
+        <div class="col-4 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Quantidade</label>
+            <p-inputNumber inputId="integeronly" formControlName="quantidade" [maxFractionDigits]="2"/>
+        </div>
+        <div class="col-4 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Material</label>
+            <p-inputNumber inputId="integeronly" formControlName="material" [maxFractionDigits]="2"/>
+        </div>
+        <div class="col-4 flex flex-column">
+            <label class="mb-2 block font-bold" for="stacked">Mão de obra</label>
+            <p-inputNumber inputId="integeronly" formControlName="maoDeObra" [maxFractionDigits]="2" > </p-inputNumber>
         </div>
     </div>
  
 </form>
+<div>
+    <p-table
+        #dt1
+        [value]="orcamentosList"
+        dataKey="id"
+        [rows]="10"
+        [(selection)]="orcamentoSelecionado"
+        (onRowSelect)="changeOrcamentoSelecionado($event)"
+
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [loading]="loading"
+        [paginator]="true"
+        [globalFilterFields]="['id', 'descricao', 'valorUnitario.material', 'valorUnitario.maoDeObra']"
+    >
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <p-button label="Clear" [outlined]="true" icon="pi pi-filter-slash" (click)="clear(dt1)" />
+                <span class="p-input-icon-left ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" [(ngModel)]="searchValue" (input)="onInput($event, dt1)" placeholder="Pesquisar por descrição" />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 4rem"></th>
+                <th>codigo</th>
+                <th>descricao</th>
+                <th>material</th>
+                <th>maoDeObra</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-orcamento>
+            <tr [pSelectableRow]="orcamento">
+                <td>
+                    <p-tableRadioButton         (onChange)="changeOrcamentoSelecionado($event)"
+                    [value]="orcamento" />
+                </td>
+                <td>
+                    {{ orcamento.id }}
+                </td>
+                <td>
+                    {{ orcamento.descricao }}
+                </td>
+                <td>
+                    {{ orcamento.valorUnitario.material }}
+                </td>
+                <td>
+                    {{ orcamento.valorUnitario.maoDeObra }}
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="7">Nenhum orçamento encontrado</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
 <div class="button-salvar">
     <p-button label="Salvar" icon="pi pi-check" (click)="salvar()"></p-button>
 </div>

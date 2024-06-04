@@ -10,6 +10,7 @@ import { OrcamentoDados } from '../../core/model/orcamento';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FornecedorStorageService } from '../../core/storage/fornecedor-storage.service';
 import { NovoFornecedorComponent } from './novo-fornecedor/novo-fornecedor.component';
+import { FornecedorService } from '../../core/service/fornecedor.service';
 @Component({
   selector: 'app-fornecedores',
   standalone: true,
@@ -25,7 +26,9 @@ export class FornecedoresComponent implements OnInit{
 
   constructor(
     private fornecedoresStorage:FornecedorStorageService,
-    public dialogService: DialogService
+    public dialogService: DialogService,
+    private fornecedorService:FornecedorService,
+
   ){}
 
   ngOnInit(): void {
@@ -33,12 +36,20 @@ export class FornecedoresComponent implements OnInit{
   }
 
   configTabela(){
-    this.fornecedores = this.fornecedoresStorage.fornecedores;
+    this.fornecedorService.getFornecedores().subscribe({
+      next:(result)=>{
+        this.fornecedores = result;
+        this.fornecedores = this.fornecedoresStorage.fornecedores;
+
+      },error:(err)=>{
+
+    }})
   }
 
   abrirCadastroFornecedores(){
     this.ref = this.dialogService.open(NovoFornecedorComponent, { 
       header: 'Cadastrar Novo Fornecedor',
+      width:'80%'
     });
     this.ref.onClose.subscribe((refresh: boolean) => {
       if (refresh) {

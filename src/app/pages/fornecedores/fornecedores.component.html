@@ -24,21 +24,21 @@
        </ng-template>
        <ng-template pTemplate="body" let-fornecedor let-index="rowIndex">
            <tr >
-               <td>{{fornecedor.dados.codigo}}</td>
-               <td>{{fornecedor.dados.descricao}}</td>
-               <td>{{fornecedor.dados.valorUnitario.material}}</td>
-               <td>{{fornecedor.dados.unidade}}</td>
-               <td>{{fornecedor.dados.fornecedor.empresa}}</td>
-               <!-- <td>{{fornecedor.dados.fornecedor.cnpj}}</td>
-               <td>{{fornecedor.dados.contato.telefone}}</td> -->
-               <td>{{fornecedor.dados.contato.email}}</td>
-               <!-- <td>{{fornecedor.dados.endereco.rua}}</td>
-               <td>{{fornecedor.dados.endereco.cidade}}</td>
-               <td>{{fornecedor.dados.endereco.cep}}</td> -->
-               <td>{{fornecedor.dados.pagamento.prazoEntrega}}</td>
-               <!-- <td>{{fornecedor.dados.pagamento.compraMinima}}</td>
-               <td>{{fornecedor.dados.pagamento.garantiaOferecida}}</td> -->
-               <td>{{fornecedor.dados.valorUnitario.dados}}</td>
+               <td>{{fornecedor.id}}</td>
+               <td>{{fornecedor.descricao}}</td>
+               <td>{{fornecedor.valorUnitario.material}}</td>
+               <td>{{fornecedor.unidade}}</td>
+               <td>{{fornecedor.fornecedor.empresa}}</td>
+               <!-- <td>{{fornecedor.fornecedor.cnpj}}</td>
+               <td>{{fornecedor.contato.telefone}}</td> -->
+               <td>{{fornecedor.contato.email}}</td>
+               <!-- <td>{{fornecedor.endereco.rua}}</td>
+               <td>{{fornecedor.endereco.cidade}}</td>
+               <td>{{fornecedor.endereco.cep}}</td> -->
+               <td>{{fornecedor.pagamento.prazoEntrega}}</td>
+               <!-- <td>{{fornecedor.pagamento.compraMinima}}</td>
+               <td>{{fornecedor.pagamento.garantiaOferecida}}</td> -->
+               <td>{{fornecedor.valorUnitario.maoDeObra}}</td>
 
            </tr>
        </ng-template>

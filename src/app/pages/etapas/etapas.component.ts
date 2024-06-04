@@ -14,6 +14,10 @@ import { Cliente } from '../../core/model/cliente';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { NovaEtapaComponent } from './nova-etapa/nova-etapa.component';
 import { KformatterPipe } from '../../core/pipe/kformatter.pipe';
+import { EtapaService } from '../../core/service/etapa.service';
+import { SpinnerService } from '../../core/service/spinner.service';
+import { OrcamentoService } from '../../core/service/orcamento.service';
+import { ClienteService } from '../../core/service/cliente.service';
 
 @Component({
   selector: 'app-etapas',
@@ -39,9 +43,13 @@ export class EtapasComponent implements OnInit{
 
   constructor(
     private etapasStorage:EtapasStorageService,
-    private orcamentoStorage:OrcamentoStorageService,
-    private clienteStorage:ClienteStorageService,
-    public dialogService: DialogService
+    public dialogService: DialogService,
+    public etapaService: EtapaService,
+    public orcamentoService: OrcamentoService,
+    public clienteService: ClienteService,
+
+    public spinnerService: SpinnerService
+
 
   ){}
 
@@ -49,11 +57,51 @@ export class EtapasComponent implements OnInit{
     this.configTabela();
   }
 
+  getEtapas(){
+    this.etapaService.getEtapas().subscribe({
+      next: (result) => {
+        this.etapasList = result;
+        this.etapasStorage.etapas = this.etapasList;
+        this.spinnerService.hide();
+
+      }, error: (err) => {
+        this.spinnerService.hide();
+      }
+    });
+  }
+
+  getOrcamento(){
+    this.orcamentoService.getOrcamento().subscribe({
+      next: (result) => {
+        this.orcamentoCliente = result;
+        this.spinnerService.hide();
+
+      }, error: (err) => {
+        this.spinnerService.hide();
+      }
+    });
+  }
+  
+  getCliente(){
+    this.clienteService.getCliente().subscribe({
+      next: (result) => {
+        this.orcamentoCliente = result;
+        this.spinnerService.hide();
+
+      }, error: (err) => {
+        this.spinnerService.hide();
+      }
+    });
+  }
+
   configTabela(){
-    this.etapasList = this.etapasStorage.etapas;
-    this.orcamentoCliente = this.orcamentoStorage.orcamentos;
-    this.cliente = this.clienteStorage.cliente;
+    this.getOrcamento();
+    this.getEtapas();
+    this.getCliente();
     this.getTotal();
+    // this.etapasList = this.etapasStorage.etapas;
+    // this.orcamentoCliente = this.orcamentoStorage.orcamentos;
+    // this.cliente = this.clienteStorage.cliente;
   }
  
   abrirCadastroEtapas(){

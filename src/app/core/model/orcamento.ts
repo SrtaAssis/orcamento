@@ -1,4 +1,4 @@
-import { TipoOrcamento } from '../enum/etapa copy';
+import { TipoOrcamento } from '../enum/tipo-orcamento';
 
 export class OrcamentoModel {
     etapa:number;
@@ -7,11 +7,14 @@ export class OrcamentoModel {
 
     constructor(){
         this.dados = new OrcamentoDados();
+        this.etapa = null;
+        this.tipo = null;
+
     }
 }
 
 export class OrcamentoDados {
-    codigo:number;
+    id:number;
     descricao:string;
     unidade:string;
     quantidade:number;
@@ -31,12 +34,12 @@ export class OrcamentoDados {
     }
 }
 export class ValorUnitario {
-    material:number;
-    maoDeObra:number;
+    material:number = 0;
+    maoDeObra:number = 0;
 }
 export class Fornecedor {
-    empresa:string;
-    cnpj:number;	
+    empresa:string = '';
+    cnpj:number = 0;	
 }
 export class enderecoFornecedor {
     cidade:string;

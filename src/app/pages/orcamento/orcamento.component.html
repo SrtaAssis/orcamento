@@ -60,13 +60,12 @@
             <ng-template pTemplate="header">
     
                 <tr >
-                    <th colspan="6"></th>
+                    <th colspan="5"></th>
                     <th colspan="2"><span class="flex justify-content-center">Valor unitário</span></th>
                     <th colspan="2"></th>
     
                 </tr>
                 <tr>
-                    <th>Item</th>
                     <th>Base</th>
                     <th>Código</th>
                     <th>Descrição</th>
@@ -89,12 +88,15 @@
             </ng-template>
             <ng-template pTemplate="body" let-orcamento let-editing="editing" let-ri="rowIndex">
                 <tr [pEditableRow]="orcamento">
-                    <td>1.1</td>
-                    <td>sinap</td>
-                    <td>{{orcamento.dados.codigo}}</td>
+                    <td>{{orcamento.dados.tipo}}</td>
+                    <td>{{orcamento.dados.id}}</td>
                     <td>{{orcamento.dados.descricao}}</td>
                     <td>{{orcamento.dados.unidade}}</td>
-                    <td>
+                    <td>{{orcamento.dados.quantidade}}</td>
+                    <td>{{orcamento.dados.valorUnitario.material}}</td>
+                    <td>{{orcamento.dados.valorUnitario.maoDeObra}}</td>
+
+                    <!-- <td>
                         <p-cellEditor>
                             <ng-template pTemplate="input">
                                 <p-inputNumber  [(ngModel)]="orcamento.dados.quantidade"> </p-inputNumber>    
@@ -123,13 +125,15 @@
                                 {{orcamento.dados.valorUnitario.maoDeObra}}
                             </ng-template>
                         </p-cellEditor>
-                    </td>
+                    </td> -->
                     <td>{{getValorTotal(orcamento.dados)}}</td>
                     <td>
                         <div class="flex align-items-center justify-content-center gap-2">
-                            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(orcamento)" class="p-button-rounded p-button-text"></button>
+                            <button pButton pRipple type="button" icon="pi pi-pencil" (click)="novoOrcamento(orcamento)" class="p-button-rounded p-button-text"></button>
+
+                            <!-- <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(orcamento)" class="p-button-rounded p-button-text"></button>
                             <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(orcamento)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
-                            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(orcamento, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+                            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(orcamento, ri)" class="p-button-rounded p-button-text p-button-danger"></button> -->
                         </div>
                     </td>
                 </tr>
