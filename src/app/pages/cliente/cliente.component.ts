@@ -35,7 +35,7 @@ export class ClienteComponent implements OnInit{
 
   ngOnInit(): void {
     this.getCliente();
-    this.cliente = this.clienteStorage.cliente;
+    // this.cliente = this.clienteStorage.cliente;
     this.buildForm();
   }
 
@@ -71,7 +71,10 @@ export class ClienteComponent implements OnInit{
     this.spinnerService.show();
     this.clienteService.getCliente().subscribe({
       next: (result) => {
-        // this.cliente = result;
+        console.log(result);
+        console.log(result.data[0]);
+
+        this.cliente = result.data[0];
         this.spinnerService.hide();
 
       }, error: (err) => {

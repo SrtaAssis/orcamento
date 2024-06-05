@@ -19,25 +19,22 @@ export class ClienteService extends ParentService{
     const data = {
       type: 'POST',
       table: 'cliente',
-    
-      value:value
+      values:value
     };
-    const headers = new HttpHeaders({
-    "Content-Type": "text/plain;charset=utf-8",
-    "Host": "script.google.com",});
+
     const url = `${environment.planilhaBancoDeDados}`;
-    return super.post(url,JSON.stringify(data),headers);
+    return super.post(url,JSON.stringify(data));
   }
 
   getCliente() {
     const data = {
       type: 'GET',
       table: 'cliente',
-      header: true
+      header: false
     };
+
     const url = `${environment.planilhaBancoDeDados}`;
-    const headers = new HttpHeaders({'Content-Type':'text/plain;charset=utf-8'});
-    return super.post(url,data,headers);
+    return super.post(url,JSON.stringify(data));
 
   }
   

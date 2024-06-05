@@ -49,7 +49,7 @@ export class BasesComponent {
       this.jsonData = this.transformData(jsonData,this.columnNames);
       // this.precoRefStorageService.precoRefInsumos = this.jsonData;
       console.log(this.jsonData);
-      this.salvarDadosSinap(this.jsonData);
+      // this.salvarDadosSinap(this.jsonData);
     };
     reader.readAsBinaryString(file);   
      

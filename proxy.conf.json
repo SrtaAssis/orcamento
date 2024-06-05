@@ -3,6 +3,8 @@
     "target": "https://script.google.com/macros/s/AKfycbwzns69WYG0ZbSFvKdj1jbJdkdq18XBuDpfNaAdG6oW9oFShi02qUjlkh4nF2-kNzUL/exec",
     "secure": false,
     "changeOrigin": true,
-    "logLevel": "debug"
+    "pathRewrite": {
+      "^/api": ""
+    }
   }
 }

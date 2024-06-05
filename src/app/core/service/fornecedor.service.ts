@@ -18,20 +18,20 @@ export class FornecedorService  extends ParentService {
     const data = {
       type: 'POST',
       table: 'fornecedor',
-      value:value
+      values:value
     };
     const url = `${environment.planilhaBancoDeDados}`;
-    return super.post(url,data);
+    return super.post(url,JSON.stringify(data));
   }
 
   getFornecedores() {
     const data = {
       type: 'GET',
       table: 'fornecedor',
-      header: true
+      header: false
     };
     const url = `${environment.planilhaBancoDeDados}`;
-    return super.post(url,data);
+    return super.post(url,JSON.stringify(data));
   }
 
 }

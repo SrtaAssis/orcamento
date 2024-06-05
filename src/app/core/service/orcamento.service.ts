@@ -18,19 +18,19 @@ export class OrcamentoService extends ParentService{
     const data = {
       type: 'POST',
       table: 'orcamento',
-      value:value
+      values:value
     };
     const url = `${environment.planilhaBancoDeDados}`;
-    return super.post(url,data);
+    return super.post(url,JSON.stringify(data));
   }
 
   getOrcamento() {
     const data = {
       type: 'GET',
       table: 'orcamento',
-      header: true
+      header: false
     };
     const url = `${environment.planilhaBancoDeDados}`;
-    return super.post(url,data);
+    return super.post(url,JSON.stringify(data));
   }
 }

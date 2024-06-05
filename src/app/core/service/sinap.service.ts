@@ -18,19 +18,19 @@ export class SinapService extends ParentService{
     const data = {
       type: 'POST',
       table: 'sinap',
-      value:value
+      values:value
     };
     const url = `${environment.planilhaBancoDeDados}`;
-    return super.post(url,data);
+    return super.post(url,JSON.stringify(data));
   }
 
   getSinap() {
     const data = {
       type: 'GET',
       table: 'sinap',
-      header: true
+      header: false
     };
     const url = `${environment.planilhaBancoDeDados}`;
-    return super.post(url,data);
+    return super.post(url,JSON.stringify(data));
   }
 }

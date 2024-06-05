@@ -18,19 +18,19 @@ export class EtapaService extends ParentService{
     const data = {
       type: 'POST',
       table: 'etapa',
-      value:value
+      values:value
     };
     const url = `${environment.planilhaBancoDeDados}`;
-    return super.post(url,data);
+    return super.post(url,JSON.stringify(data));
   }
 
   getEtapas() {
     const data = {
       type: 'GET',
       table: 'etapa',
-      header: true
+      header: false
     };
     const url = `${environment.planilhaBancoDeDados}`;
-    return super.post(url,data);
+    return super.post(url,JSON.stringify(data));
   }
 }
