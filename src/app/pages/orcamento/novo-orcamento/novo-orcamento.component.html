@@ -6,7 +6,7 @@
             [options]="etapas" 
             formControlName="etapa"
             optionLabel="nome" 
-            optionValue="value" 
+            optionValue="id" 
 
             placeholder="Selecione uma etapa" />
         </div>
@@ -42,9 +42,8 @@
         [rows]="10"
         [(selection)]="orcamentoSelecionado"
         (onRowSelect)="changeOrcamentoSelecionado($event)"
-
         [rowsPerPageOptions]="[10, 25, 50]"
-        [loading]="loading"
+        [loading]="this.spinnerService.isLoading"
         [paginator]="true"
         [globalFilterFields]="['id', 'descricao', 'valorUnitario.material', 'valorUnitario.maoDeObra']"
     >
@@ -73,16 +72,16 @@
                     [value]="orcamento" />
                 </td>
                 <td>
-                    {{ orcamento.id }}
+                    {{ orcamento?.id }}
                 </td>
                 <td>
-                    {{ orcamento.descricao }}
+                    {{ orcamento?.descricao }}
                 </td>
                 <td>
-                    {{ orcamento.valorUnitario.material }}
+                    {{ orcamento?.valorUnidade?.material }}
                 </td>
                 <td>
-                    {{ orcamento.valorUnitario.maoDeObra }}
+                    {{ orcamento?.valorUnidade?.maoDeObra }}
                 </td>
             </tr>
         </ng-template>

@@ -3,7 +3,7 @@
         <div class="grid">
             <div class="col-4" style="display: flex;
             justify-content: center;    align-items: center;">
-                <app-selecionar-imagem texto="Logo de empresa" [fotoUrl]="cliente.logoUrl" (fotosSelecionadas)="setLogo($event)" ></app-selecionar-imagem>
+                <app-selecionar-imagem texto="Logo de empresa" [fotoUrl]="cliente.logoUrl" (fotosSelecionadas)="setLogo($event)" *ngIf="this.loading == false" ></app-selecionar-imagem>
             </div>
             <div class="col-8 grid">
                 <div class="col-12 flex flex-column">
@@ -25,7 +25,7 @@
             </div>
             <div class="col-12 flex flex-column">
                 <label class="mb-2 block font-bold" for="stacked">Endereço</label>
-                <input type="text" pInputText formControlName="endereco"/>
+                <input type="text" pInputText formControlName="enderecoObra"/>
             </div>
             <div class="col-4 flex flex-column">
                 <label class="mb-2 block font-bold" for="stacked">Cidade</label>
@@ -48,12 +48,13 @@
                 <p-calendar formControlName="previsaoInicio"></p-calendar>
             </div>
             <div class="col-3 flex flex-column">
-                <label class="mb-2 block font-bold" for="stacked">Encargos Sociais</label>
-                <input type="text" pInputText formControlName="encargosSociais"/>
+                <label class="mb-2 block font-bold" for="stacked">Encargos Sociais (%)</label>
+                <p-inputNumber formControlName="encargosSociais" [maxFractionDigits]="2" > </p-inputNumber>
             </div>
             <div class="col-3 flex flex-column">
-                <label class="mb-2 block font-bold" for="stacked">BDI</label>
-                <input type="email" pInputText formControlName="bdi"/>
+                <label class="mb-2 block font-bold" for="stacked">BDI (%)</label>
+                <p-inputNumber formControlName="bdi" [maxFractionDigits]="2" > </p-inputNumber>
+
             </div>
             <div class="col-4 flex flex-column">
                 <label class="mb-2 block font-bold" for="stacked">Área projetada</label>

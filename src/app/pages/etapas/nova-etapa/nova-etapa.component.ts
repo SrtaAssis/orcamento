@@ -44,7 +44,6 @@ export class NovaEtapaComponent implements OnInit{
       return
     }
     this.spinnerService.show();
-    this.etapaNova.value = this.etapas.length+1;
     // this.etapas.push(this.etapaNova)
     // this.etapasStorage.etapas = this.etapas;
     this.etapaService.salvar(this.etapaNova).subscribe({

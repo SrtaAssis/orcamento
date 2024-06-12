@@ -34,4 +34,13 @@ export class FornecedorService  extends ParentService {
     return super.post(url,JSON.stringify(data));
   }
 
+  delete(id) {
+    const data = {
+      type: 'DELETE',
+      table: 'fornecedor',
+      id: id
+    };
+    const url = `${environment.planilhaBancoDeDados}`;
+    return super.post(url,JSON.stringify(data));
+  }
 }

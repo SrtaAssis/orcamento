@@ -55,7 +55,7 @@ export class NovoOrcamentoComponent implements OnInit{
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
     private toastService:ToastService,
-    private spinnerService:SpinnerService,
+    public spinnerService:SpinnerService,
     private orcamentoService:OrcamentoService,
     private etapaService:EtapaService,
     private fornecedorService:FornecedorService,
@@ -69,23 +69,24 @@ export class NovoOrcamentoComponent implements OnInit{
   
   ngOnInit(): void {
     if( this.config.data?.orcamento){
+      this.getEtapas();
       this.orcamento = this.config.data.orcamento;
-      console.log( this.config.data);
+      this.buildForm();
       this.configEdit();
-      this.isEditar = true;
     }else{
+      this.buildForm();
       this.configCadastro();
     }
-    this.buildForm();
   }
 
   buildForm(){
   this.form = new FormGroup({
+    id: new FormControl(this.orcamento.id),
     etapa: new FormControl(this.orcamento.etapa,[Validators.required]),
     tipo: new FormControl(this.orcamento.tipo,[Validators.required]),
     quantidade: new FormControl(this.orcamento.dados.quantidade,[Validators.required]),
-    maoDeObra: new FormControl(this.orcamento.dados.valorUnitario.maoDeObra,[Validators.required]),
-    material: new FormControl(this.orcamento.dados.valorUnitario.material,[Validators.required]),
+    maoDeObra: new FormControl(this.orcamento.dados.valorUnidade.maoDeObra,[Validators.required]),
+    material: new FormControl(this.orcamento.dados.valorUnidade.material,[Validators.required]),
     dados: new FormControl(this.orcamento.dados,[Validators.required]),
     });
 
@@ -96,21 +97,22 @@ export class NovoOrcamentoComponent implements OnInit{
     this.getSinap();
     this.getFornecedor();
     this.form.get('tipo').setValue(TipoOrcamento.SINAP);
-    this.orcamentosList = this.sinap;
   }
 
   configEdit(){
+    this.isEditar = true;
+    this.form.patchValue(this.config.data.orcamento);
     this.form.get('tipo').disable();
-    this.etapas = this.etapaStorage.etapas;
-    this.orcamentosList = [this.orcamento.dados];
-    console.log(this.orcamentosList);
-
+    // this.etapas = this.etapaStorage.etapas;
+    this.orcamentosList = [this.config.data.orcamento.dados];
+    this.orcamentoSelecionado = this.config.data.orcamento.dados;
   }
 
   getEtapas(){
+    this.spinnerService.show();
     this.etapaService.getEtapas().subscribe({
       next: (result) => {
-        this.etapas = result;
+        this.etapas = result.data || [];
         this.spinnerService.hide();
 
       }, error: (err) => {
@@ -120,9 +122,12 @@ export class NovoOrcamentoComponent implements OnInit{
   }
 
   getSinap(){
+    this.spinnerService.show();
+
     this.sinapService.getSinap().subscribe({
       next: (result) => {
-        this.sinap = result;
+        this.sinap = result.data || [];
+        this.orcamentosList = this.sinap;
         this.spinnerService.hide();
 
       }, error: (err) => {
@@ -132,9 +137,11 @@ export class NovoOrcamentoComponent implements OnInit{
   }
 
   getFornecedor(){
+    this.spinnerService.show();
+
     this.fornecedorService.getFornecedores().subscribe({
       next: (result) => {
-        this.fornecedores = result;
+        this.fornecedores = result.data || [];
         this.spinnerService.hide();
 
       }, error: (err) => {
@@ -144,12 +151,11 @@ export class NovoOrcamentoComponent implements OnInit{
   }
 
   changeOrcamentoTipo(ev){
-    console.log(ev);
     if(!this.isEditar){
       if(ev.value == TipoOrcamento.FORNECEDOR){
-        this.orcamentosList = this.fornecedorStorageService.fornecedores;
+        this.orcamentosList = this.fornecedores;
       }else{
-        this.orcamentosList = this.sinapStorageService.orcamentos;
+        this.orcamentosList = this.sinap;
   
       }
     }
@@ -159,8 +165,8 @@ export class NovoOrcamentoComponent implements OnInit{
   changeOrcamentoSelecionado(ev){
 
     if(ev?.data){
-      this.form.get('maoDeObra').setValue(ev.data.valorUnitario.maoDeObra);
-      this.form.get('material').setValue(ev.data.valorUnitario.material);
+      this.form.get('maoDeObra').setValue(ev.data.valorUnidade.maoDeObra);
+      this.form.get('material').setValue(ev.data.valorUnidade.material);
     }
   }
 
@@ -172,12 +178,13 @@ export class NovoOrcamentoComponent implements OnInit{
       return;
     }
     const salvar = new OrcamentoModel();
+    salvar.id = this.form.get("id").value;
     salvar.etapa = this.form.get("etapa").value;
     salvar.tipo = this.form.get("tipo").value;
     salvar.dados = this.orcamentoSelecionado;
     salvar.dados.quantidade = this.form.get("quantidade").value;
-    salvar.dados.valorUnitario.maoDeObra = this.form.get("maoDeObra").value;
-    salvar.dados.valorUnitario.material = this.form.get("material").value;
+    salvar.dados.valorUnidade.maoDeObra = this.form.get("maoDeObra").value;
+    salvar.dados.valorUnidade.material = this.form.get("material").value;
     
     const orcamentosSalvos: OrcamentoModel[] = [];
 
@@ -188,20 +195,19 @@ export class NovoOrcamentoComponent implements OnInit{
     }
     orcamentosSalvos.push(salvar);
     this.orcamentoStorageService.orcamentos = orcamentosSalvos;
-    console.log(orcamentosSalvos);
-    this.closeDialog(true);
-    // this.orcamentoService.salvar(salvar).subscribe({
-    //   next: (result) => {
-    //     this.toastService.showSuccess('Salvo',"Salvo com sucesso!");
-    //     this.spinnerService.hide();
-    //     this.closeDialog(true);
+    // this.closeDialog(true);
+    this.orcamentoService.salvar(salvar).subscribe({
+      next: (result) => {
+        this.toastService.showSuccess('Salvo',"Salvo com sucesso!");
+        this.spinnerService.hide();
+        this.closeDialog(true);
 
-    //   }, error: (err) => {
-    //     this.toastService.showError(err);
-    //     this.spinnerService.hide();
-    //     this.closeDialog(false);
-    //   }
-    // });
+      }, error: (err) => {
+        this.toastService.showError(err);
+        this.spinnerService.hide();
+        this.closeDialog(false);
+      }
+    });
 
   }
 

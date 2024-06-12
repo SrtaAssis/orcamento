@@ -1,5 +1,5 @@
 export class EtapaModel {
     nome:string;
-    value:number;
+    id:number;
 
 }

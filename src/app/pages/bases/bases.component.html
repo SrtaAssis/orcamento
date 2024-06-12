@@ -1,4 +1,6 @@
-<div>
+<div style="margin-bottom: 50px;
+display: flex;
+justify-content: flex-end;">
 
     <input
     #fileUploadSimple
@@ -10,4 +12,54 @@
   />
   <p-button label="Atualizar dados do SINAP" (click)="fileUploadSimple.click()">
   </p-button>
+</div>
+<div>
+  <p-table
+  #dt1
+  [value]="sinap"
+  dataKey="id"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 25, 50]"
+  [paginator]="true"
+  [globalFilterFields]="['id', 'descricao', 'valorUnitario.material', 'valorUnitario.maoDeObra']"
+>
+  <ng-template pTemplate="caption">
+      <div class="flex">
+          <p-button label="Clear" [outlined]="true" icon="pi pi-filter-slash" (click)="clear(dt1)" />
+          <span class="p-input-icon-left ml-auto">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" [(ngModel)]="searchValue" (input)="onInput($event, dt1)" placeholder="Pesquisar por descrição" />
+          </span>
+      </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+      <tr>
+          <th>codigo</th>
+          <th>descricao</th>
+          <th>material</th>
+          <th>maoDeObra</th>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-orcamento>
+      <tr>
+          <td>
+              {{ orcamento?.id }}
+          </td>
+          <td>
+              {{ orcamento?.descricao }}
+          </td>
+          <td>
+              {{ orcamento?.valorUnidade?.material }}
+          </td>
+          <td>
+              {{ orcamento?.valorUnidade?.maoDeObra }}
+          </td>
+      </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+      <tr>
+          <td colspan="7">Nenhum dado encontrado</td>
+      </tr>
+  </ng-template>
+</p-table>
 </div>

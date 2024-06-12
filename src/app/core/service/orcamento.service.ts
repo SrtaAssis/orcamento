@@ -33,4 +33,14 @@ export class OrcamentoService extends ParentService{
     const url = `${environment.planilhaBancoDeDados}`;
     return super.post(url,JSON.stringify(data));
   }
+
+  delete(id) {
+    const data = {
+      type: 'DELETE',
+      table: 'orcamento',
+      id: id
+    };
+    const url = `${environment.planilhaBancoDeDados}`;
+    return super.post(url,JSON.stringify(data));
+  }
 }

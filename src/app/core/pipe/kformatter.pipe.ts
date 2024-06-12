@@ -12,7 +12,6 @@ export class KformatterPipe implements PipeTransform {
       return `${parseFloat(val.toFixed(2))}`;
     } else if (val > 999 && val < 999999) {
       const r = (val/1000);
-      console.log(r)
       if(r%1 == 0) {
         return `${r}K`;
       } else {

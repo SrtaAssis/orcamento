@@ -2,9 +2,9 @@ export class Cliente {
 
     obra:string = '';
     nome:string = '';
-    telefone:number = 0;
+    telefone:number;
     enderecoCliente:string = '';
-    endereco:string = '';
+    enderecoObra:string = '';
     cidade:string = '';
     estado:string = '';
     email:string = '';

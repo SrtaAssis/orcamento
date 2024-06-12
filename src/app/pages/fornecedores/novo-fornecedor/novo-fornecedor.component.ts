@@ -8,7 +8,7 @@ import { ToastService } from '../../../core/service/toast.service';
 import { SpinnerService } from '../../../core/service/spinner.service';
 import { OrcamentoStorageService } from '../../../core/storage/orcamento-storage.service';
 import { FornecedorStorageService } from '../../../core/storage/fornecedor-storage.service';
-import { DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FornecedorService } from '../../../core/service/fornecedor.service';
@@ -35,28 +35,29 @@ export class NovoFornecedorComponent implements OnInit{
   constructor(
     private toastService:ToastService,
     private spinnerService:SpinnerService,
-    private orcamentoStorageService:OrcamentoStorageService,
-    private fornecedorStorageService:FornecedorStorageService,
     public ref: DynamicDialogRef,
+    public config: DynamicDialogConfig,
     private fornecedorService:FornecedorService,
 
 
   ){}
   ngOnInit(): void {
+    if(this.config.data.fornecedor){
+      this.fornecedor = this.config.data.fornecedor;
+    }
     this.buildForm();
-    // if(this.fornecedor){
-    //   this.form.patchValue(this.fornecedor);
-    // }
+
   }
 
   buildForm(){
     this.form = new FormGroup({
+      id: new FormControl(this.fornecedor.id),
       descricao: new FormControl(this.fornecedor.descricao,[Validators.required]),
       unidade: new FormControl(this.fornecedor.unidade,[Validators.required]),
     });
     this.formValorUnitario = new FormGroup({
-      material: new FormControl(this.fornecedor.valorUnitario.material,[Validators.required]),
-      maoDeObra: new FormControl(this.fornecedor.valorUnitario.maoDeObra,[Validators.required]),
+      material: new FormControl(this.fornecedor.valorUnidade.material,[Validators.required]),
+      maoDeObra: new FormControl(this.fornecedor.valorUnidade.maoDeObra,[Validators.required]),
   
     });
     this.formContato = new FormGroup({
@@ -95,30 +96,30 @@ export class NovoFornecedorComponent implements OnInit{
     this.spinnerService.show();
     let novoOrcamento:OrcamentoDados = new OrcamentoDados();
 
-    Object.assign(novoOrcamento,this.form.value);
-    novoOrcamento.id = this.fornecedorStorageService.fornecedores.length+1;
+    // Object.assign(novoOrcamento,this.form.value);
+    novoOrcamento = this.form.value;
     novoOrcamento.contato = this.formContato.value;
     novoOrcamento.fornecedor = this.formfornecedor.value;
-    novoOrcamento.valorUnitario = this.formValorUnitario.value;
+    novoOrcamento.valorUnidade = this.formValorUnitario.value;
     novoOrcamento.pagamento = this.formpagamento.value;
     novoOrcamento.endereco = this.formEndereco.value;
-
+    
     this.fornecedorService.salvar(novoOrcamento).subscribe({
       next: (result) => {
-        this.toastService.showSuccess('Salvo',"Salvo com sucesso!");
         this.spinnerService.hide();
+        this.toastService.showSuccess('Salvo',"Salvo com sucesso!");
         this.closeDialog(true);
 
       }, error: (err) => {
-        this.toastService.showError(err);
         this.spinnerService.hide();
+        this.toastService.showError(err);
         this.closeDialog(false);
       }
     });
 
   }
   
-  closeDialog(data?) {
+  closeDialog(data = false) {
     this.ref.close(data);
   }
 }

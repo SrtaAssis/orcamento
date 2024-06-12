@@ -18,6 +18,7 @@ import { EtapaService } from '../../core/service/etapa.service';
 import { SpinnerService } from '../../core/service/spinner.service';
 import { OrcamentoService } from '../../core/service/orcamento.service';
 import { ClienteService } from '../../core/service/cliente.service';
+import { ToastService } from '../../core/service/toast.service';
 
 @Component({
   selector: 'app-etapas',
@@ -28,18 +29,20 @@ import { ClienteService } from '../../core/service/cliente.service';
   styleUrl: './etapas.component.scss'
 })
 export class EtapasComponent implements OnInit{
+  
   etapasList:EtapaModel[] = [];
   orcamentoCliente:OrcamentoModel[] = [];
   cliente:Cliente = new Cliente();
   ref: DynamicDialogRef | undefined;
-  MOTotal:number;
-  materialTotal:number;
-  LSTotal:number;
-  totalAll:number;
-  BDITotal:number;
-  porcentagemTotal:number;
-  porcentagemMO:number;
-  porcentagemMaterial:number;
+  MOTotal:number = 0;
+  materialTotal:number = 0;
+  LSTotal:number = 0;
+  totalAll:number = 0;
+  BDITotal:number = 0;
+  porcentagemTotal:number = 0;
+  porcentagemMO:number = 0;
+  porcentagemMaterial:number = 0;
+  loading:boolean = false;
 
   constructor(
     private etapasStorage:EtapasStorageService,
@@ -47,7 +50,7 @@ export class EtapasComponent implements OnInit{
     public etapaService: EtapaService,
     public orcamentoService: OrcamentoService,
     public clienteService: ClienteService,
-
+    public toastService:ToastService,
     public spinnerService: SpinnerService
 
 
@@ -60,48 +63,52 @@ export class EtapasComponent implements OnInit{
   getEtapas(){
     this.etapaService.getEtapas().subscribe({
       next: (result) => {
-        this.etapasList = result;
+        this.etapasList = result.data || [];
         this.etapasStorage.etapas = this.etapasList;
-        this.spinnerService.hide();
 
       }, error: (err) => {
-        this.spinnerService.hide();
       }
     });
   }
 
   getOrcamento(){
+
     this.orcamentoService.getOrcamento().subscribe({
       next: (result) => {
-        this.orcamentoCliente = result;
-        this.spinnerService.hide();
+        this.orcamentoCliente = result.data || [];
 
       }, error: (err) => {
-        this.spinnerService.hide();
       }
     });
   }
   
   getCliente(){
+
     this.clienteService.getCliente().subscribe({
       next: (result) => {
-        this.orcamentoCliente = result;
-        this.spinnerService.hide();
+        this.cliente = result.data[0] || null;
 
       }, error: (err) => {
-        this.spinnerService.hide();
       }
     });
   }
+  async configTabela() {
+    try {
+      this.loading = true;
+      await this.getEtapas();
+      await this.getCliente();
+      await this.getOrcamento();
+      await new Promise((resolve) => setTimeout(resolve, 3000));
 
-  configTabela(){
-    this.getOrcamento();
-    this.getEtapas();
-    this.getCliente();
-    this.getTotal();
-    // this.etapasList = this.etapasStorage.etapas;
-    // this.orcamentoCliente = this.orcamentoStorage.orcamentos;
-    // this.cliente = this.clienteStorage.cliente;
+      await this.getTotal();
+      this.loading = false;
+
+
+    } catch (error) {
+      this.loading = false;
+      console.error('Error in configSalvarSinap:', error);
+      // Handle the error (e.g., retry, notify the user, etc.)
+    }
   }
  
   abrirCadastroEtapas(){
@@ -114,25 +121,43 @@ export class EtapasComponent implements OnInit{
       }
     });
   }
+  
   getTotal(){
-    this.MOTotal = this.orcamentoCliente.map(o=>o.dados.valorUnitario.maoDeObra*o.dados.quantidade).reduce((a,b)=>(a+b),0);
-    this.materialTotal = this.orcamentoCliente.map(o=>o.dados.valorUnitario.material*o.dados.quantidade).reduce((a,b)=>a+b,0);
-    this.LSTotal = this.MOTotal*(this.cliente.encargosSociais/100);
-    this.BDITotal = (this.MOTotal+this.materialTotal+this.LSTotal)*(this.cliente.bdi/100);
-    this.totalAll = this.MOTotal+this.materialTotal+this.LSTotal+this.BDITotal;
-    this.porcentagemTotal = 100;
-    this.porcentagemMO = ((this.MOTotal+this.LSTotal+this.BDITotal)/this.totalAll)*100;
-    this.porcentagemMaterial = ((this.materialTotal)/this.totalAll)*100;
+    if(!this.orcamentoCliente || !this.cliente){
+      this.toastService.showInfo("Dados faltando!","Pra realizar os cálculos é necessário dados do cliente e orçamento.")
+    } 
+
+    if(this.orcamentoCliente && this.cliente){
+      this.MOTotal = this.orcamentoCliente.map(o=>o.dados.valorUnidade.maoDeObra*o.dados.quantidade).reduce((a,b)=>(a+b),0) || 0;
+      this.materialTotal = this.orcamentoCliente.map(o=>o.dados.valorUnidade.material*o.dados.quantidade).reduce((a,b)=>a+b,0) || 0;
+      this.LSTotal = this.MOTotal*(this.cliente.encargosSociais/100) || 0;
+      this.BDITotal = (this.MOTotal+this.materialTotal+this.LSTotal)*(this.cliente.bdi/100) || 0;
+      this.totalAll = this.MOTotal+this.materialTotal+this.LSTotal+this.BDITotal || 0;
+      this.porcentagemTotal = 100;
+      this.porcentagemMO = ((this.MOTotal+this.LSTotal+this.BDITotal)/this.totalAll)*100 || 0;
+      this.porcentagemMaterial = ((this.materialTotal)/this.totalAll)*100 || 0;
+  
+    }
 
   }
 
   getTotalEtapas(tipo,value){
-    const MO = this.orcamentoCliente.filter(o=>o.etapa == value).map(o=>o.dados.valorUnitario.maoDeObra*o.dados.quantidade).reduce((a,b)=>a+b,0);
-    const material = this.orcamentoCliente.filter(o=>o.etapa == value).map(o=>o.dados.valorUnitario.material*o.dados.quantidade).reduce((a,b)=>a+b,0);
-    const LS = MO*(this.cliente.encargosSociais/100);
-    const BDI = (MO+material+LS)*(this.cliente.bdi/100);
-    const total = MO+material+BDI+LS;
-    const porcentagem =(total/this.totalAll)*100;
+    let MO = 0;
+    let material = 0;
+    let LS = 0;
+    let BDI = 0;
+    let total = 0;
+    let porcentagem = 0;    
+    
+    if(this.orcamentoCliente && this.cliente){
+      MO = this.orcamentoCliente.filter(o=>o.etapa == value).map(o=>o.dados.valorUnidade.maoDeObra*o.dados.quantidade).reduce((a,b)=>a+b,0) || 0;
+      material = this.orcamentoCliente?.filter(o=>o.etapa == value).map(o=>o.dados.valorUnidade.material*o.dados.quantidade).reduce((a,b)=>a+b,0) || 0;
+      LS = MO*(this.cliente.encargosSociais/100) || 0;
+      BDI = (MO+material+LS)*(this.cliente.bdi/100) || 0;
+      total = MO+material+BDI+LS || 0;
+      porcentagem =(total/this.totalAll)*100 || 0;
+    }
+
 
     switch (tipo){
       case 'MO':

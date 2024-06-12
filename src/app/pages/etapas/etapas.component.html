@@ -2,7 +2,7 @@
     <div style="display: flex;justify-content: end;margin-bottom: 20px;">
         <p-button label="nova etapa" icon="pi pi-plus" [text]="true" severity="secondary" (click)="abrirCadastroEtapas()"></p-button>
     </div>
-    <p-table [value]="etapasList"   [tableStyle]="{ 'min-width': '50rem' }">
+    <p-table [value]="etapasList" [loading]="this.loading"  [tableStyle]="{ 'min-width': '50rem' }">
        <ng-template pTemplate="header">
            <tr>
                <th>Etapas</th>
@@ -18,12 +18,12 @@
        <ng-template pTemplate="body" let-etapa let-index="rowIndex">
            <tr >
                <td>{{etapa.nome}}</td>
-               <td>R$ {{getTotalEtapas('MO',etapa.value) | number}}</td>
-               <td>R$ {{getTotalEtapas('material',etapa.value) | number}}</td>
-               <td>R$ {{getTotalEtapas('LS',etapa.value) | number}}</td>
-               <td>R$ {{getTotalEtapas('BDI',etapa.value) | number}}</td>
-               <td>R$ {{getTotalEtapas('total',etapa.value) | number}}</td>
-               <td>{{getTotalEtapas('porcentagem',etapa.value)}}</td>
+               <td>R$ {{getTotalEtapas('MO',etapa.id) | number}}</td>
+               <td>R$ {{getTotalEtapas('material',etapa.id) | number}}</td>
+               <td>R$ {{getTotalEtapas('LS',etapa.id) | number}}</td>
+               <td>R$ {{getTotalEtapas('BDI',etapa.id) | number}}</td>
+               <td>R$ {{getTotalEtapas('total',etapa.id) | number}}</td>
+               <td>{{getTotalEtapas('porcentagem',etapa.id)}}</td>
 
            </tr>
        </ng-template>

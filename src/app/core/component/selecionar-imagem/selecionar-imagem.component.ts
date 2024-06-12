@@ -41,6 +41,7 @@ export class SelecionarImagemComponent implements OnInit{
   }
   ngOnInit(): void {
     if(this.fotoUrl){
+      
       const safeUrl: SafeUrl = this.sanitizer.bypassSecurityTrustUrl(this.fotoUrl);
       this.foto = {base64:'',safeUrl:safeUrl};
     }

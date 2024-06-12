@@ -16,6 +16,8 @@ import { NovoOrcamentoComponent } from './novo-orcamento/novo-orcamento.componen
 import { OrcamentoService } from '../../core/service/orcamento.service';
 import { SpinnerService } from '../../core/service/spinner.service';
 import { ClienteService } from '../../core/service/cliente.service';
+import { EtapaService } from '../../core/service/etapa.service';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-orcamento',
@@ -43,22 +45,36 @@ export class OrcamentoComponent implements OnInit{
     public dialogService: DialogService,
     private spinnerService:SpinnerService,
     private orcamentoService:OrcamentoService,
-    private clienteService:ClienteService
-
-
-
+    private clienteService:ClienteService,
+    public etapaService: EtapaService,
+    private confirmationService: ConfirmationService,
   ){}
 
   ngOnInit(): void {
     this.getCliente();
     this.getOrcamentos();    
+    this.getEtapas();
+  }
 
+  getEtapas(){
+    this.spinnerService.show();
+
+    this.etapaService.getEtapas().subscribe({
+      next: (result) => {
+        this.etapas = result.data || [];
+        this.spinnerService.hide();
+
+      }, error: (err) => {
+        this.spinnerService.hide();
+      }
+    });
   }
 
   getCliente(){
+    this.spinnerService.show();
     this.clienteService.getCliente().subscribe({
       next: (result) => {
-        this.cliente = result;
+        this.cliente = result.data[0] || new Cliente();
         this.spinnerService.hide();
 
       }, error: (err) => {
@@ -68,9 +84,10 @@ export class OrcamentoComponent implements OnInit{
   }
 
   getOrcamentos(){
+    this.spinnerService.show();
     this.orcamentoService.getOrcamento().subscribe({
       next: (result) => {
-        this.orcamentos = result;
+        this.orcamentos = result.data;
         this.spinnerService.hide();
 
       }, error: (err) => {
@@ -87,13 +104,41 @@ export class OrcamentoComponent implements OnInit{
     });
     this.ref.onClose.subscribe((refresh: boolean) => {
       if (refresh) {
-        console.log("refresh");
         
         this.getOrcamentos();
       }
     });
   }
   
+  
+  confirmarExclusao(orcamento:OrcamentoModel){
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: `Tem certeza que deseja o excluir este orçamento?`,
+      header: 'Não será possível reverter essa ação!',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel:'Excluir',
+      rejectLabel:'Cancelar',
+      rejectButtonStyleClass:"p-button-text",
+      accept: () => {
+        this.excluir(orcamento.id);
+      },
+      reject: () => {}
+    }); 
+  }
+  excluir(id){
+    this.spinnerService.show();
+    this.orcamentoService.delete(id).subscribe({
+      next:(result)=>{
+        this.spinnerService.hide();
+        this.getOrcamentos();
+
+      },error:(err)=>{
+        this.spinnerService.hide();
+
+    }})
+  }
+
   getData(data) {
     const dateFormat: string = "dd/MM/yyyy";
 
@@ -102,13 +147,13 @@ export class OrcamentoComponent implements OnInit{
 
   getValorTotal(dados:OrcamentoDados){
     let total = 0;
-    total = (dados.valorUnitario.maoDeObra+dados.valorUnitario.material)*dados.quantidade;
-    return total;
+    total = (dados.valorUnidade.maoDeObra+dados.valorUnidade.material)*dados.quantidade;
+    return total.toFixed(2);
 
   }
 
   getEtapa(etapa){    
-    return this.etapas.filter(e=>e.value==etapa)[0].nome;
+    return this.etapas.filter(e=>e.id==etapa)[0]?.nome;
   }
 
   errorUrlPhoto(evt){

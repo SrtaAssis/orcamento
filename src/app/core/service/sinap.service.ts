@@ -33,4 +33,13 @@ export class SinapService extends ParentService{
     const url = `${environment.planilhaBancoDeDados}`;
     return super.post(url,JSON.stringify(data));
   }
+
+  deletar() {
+    const data = {
+      type: 'DELETE',
+      table: 'sinap',
+    };
+    const url = `${environment.planilhaBancoDeDados}`;
+    return super.post(url,JSON.stringify(data));
+  }
 }

@@ -4,6 +4,8 @@
 
         <app-botoes-exportacao 
             parentId="relatorio-final" 
+            (inicioProcessamento)="inicioProcessamento($event)"
+            (fimProcessamento)="fimProcessamento($event)"
             [nomeRelatorio]="'relatorio-orçamento-'+cliente.obra">
         </app-botoes-exportacao>
 
@@ -74,7 +76,7 @@
                     <th>Material</th>
                     <th>MO</th>
                     <th>Total</th>
-                    <th>Ações</th>
+                    <th *ngIf="this.gerandoPdf == false">Ações</th>
     
     
                 </tr>
@@ -92,48 +94,14 @@
                     <td>{{orcamento.dados.id}}</td>
                     <td>{{orcamento.dados.descricao}}</td>
                     <td>{{orcamento.dados.unidade}}</td>
-                    <td>{{orcamento.dados.quantidade}}</td>
-                    <td>{{orcamento.dados.valorUnitario.material}}</td>
-                    <td>{{orcamento.dados.valorUnitario.maoDeObra}}</td>
-
-                    <!-- <td>
-                        <p-cellEditor>
-                            <ng-template pTemplate="input">
-                                <p-inputNumber  [(ngModel)]="orcamento.dados.quantidade"> </p-inputNumber>    
-                            </ng-template>
-                            <ng-template pTemplate="output">
-                                {{orcamento.dados.quantidade}}
-                            </ng-template>
-                        </p-cellEditor>
-                    </td>
-                    <td>
-                        <p-cellEditor>
-                            <ng-template pTemplate="input">
-                                <p-inputNumber  [(ngModel)]="orcamento.dados.valorUnitario.material"> </p-inputNumber>
-                            </ng-template>
-                            <ng-template pTemplate="output">
-                                {{orcamento.dados.valorUnitario.material}}
-                            </ng-template>
-                        </p-cellEditor>
-                    </td>
-                    <td>
-                        <p-cellEditor>
-                            <ng-template pTemplate="input">
-                                <p-inputNumber  [(ngModel)]="orcamento.dados.valorUnitario.maoDeObra"> </p-inputNumber>
-                            </ng-template>
-                            <ng-template pTemplate="output">
-                                {{orcamento.dados.valorUnitario.maoDeObra}}
-                            </ng-template>
-                        </p-cellEditor>
-                    </td> -->
+                    <td>{{orcamento.dados.quantidade.toFixed(0)}}</td>
+                    <td>{{orcamento.dados.valorUnidade.material.toFixed(2)}}</td>
+                    <td>{{orcamento.dados.valorUnidade.maoDeObra.toFixed(2)}}</td>
                     <td>{{getValorTotal(orcamento.dados)}}</td>
-                    <td>
+                    <td *ngIf="this.gerandoPdf == false">
                         <div class="flex align-items-center justify-content-center gap-2">
                             <button pButton pRipple type="button" icon="pi pi-pencil" (click)="novoOrcamento(orcamento)" class="p-button-rounded p-button-text"></button>
-
-                            <!-- <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(orcamento)" class="p-button-rounded p-button-text"></button>
-                            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(orcamento)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
-                            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(orcamento, ri)" class="p-button-rounded p-button-text p-button-danger"></button> -->
+                            <button pButton pRipple type="button" icon="pi pi-trash" (click)="confirmarExclusao(orcamento)" class="p-button-rounded p-button-text"></button>
                         </div>
                     </td>
                 </tr>

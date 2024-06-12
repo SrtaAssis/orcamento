@@ -1,17 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { PrimeNGConfig } from 'primeng/api';
+import { ConfirmationService, PrimeNGConfig } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { ToastModule } from 'primeng/toast';
 import { SpinnerComponent } from './core/component/spinner/spinner.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule,RouterOutlet,OverlayPanelModule,ButtonModule,PanelMenuModule,CommonModule,SpinnerComponent, ToastModule],
+  imports: [CommonModule,RouterOutlet,OverlayPanelModule,ButtonModule,PanelMenuModule,CommonModule,SpinnerComponent, ToastModule,ConfirmDialogModule],
+  providers: [ConfirmationService],
     templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

@@ -4,7 +4,8 @@ export class OrcamentoModel {
     etapa:number;
     dados:OrcamentoDados;
     tipo:TipoOrcamento;
-
+    id:string;
+    
     constructor(){
         this.dados = new OrcamentoDados();
         this.etapa = null;
@@ -14,18 +15,18 @@ export class OrcamentoModel {
 }
 
 export class OrcamentoDados {
-    id:number;
+    id:string;
     descricao:string;
     unidade:string;
     quantidade:number;
-    valorUnitario:ValorUnitario;
+    valorUnidade:ValorUnitario;
     contato?:ContatoFornecedor;
     fornecedor?:Fornecedor;
     pagamento?:PagamentoFornecedor;
     endereco?:enderecoFornecedor;
 
     constructor(){
-        this.valorUnitario = new ValorUnitario();
+        this.valorUnidade = new ValorUnitario();
         this.contato = new ContatoFornecedor();
         this.fornecedor = new Fornecedor();
         this.pagamento = new PagamentoFornecedor();

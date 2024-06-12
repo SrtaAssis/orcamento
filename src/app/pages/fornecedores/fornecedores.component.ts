@@ -11,6 +11,8 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { FornecedorStorageService } from '../../core/storage/fornecedor-storage.service';
 import { NovoFornecedorComponent } from './novo-fornecedor/novo-fornecedor.component';
 import { FornecedorService } from '../../core/service/fornecedor.service';
+import { SpinnerService } from '../../core/service/spinner.service';
+import { ConfirmationService } from 'primeng/api';
 @Component({
   selector: 'app-fornecedores',
   standalone: true,
@@ -27,34 +29,68 @@ export class FornecedoresComponent implements OnInit{
   constructor(
     private fornecedoresStorage:FornecedorStorageService,
     public dialogService: DialogService,
+    public spinnerService:SpinnerService,
+    private confirmationService: ConfirmationService,
     private fornecedorService:FornecedorService,
 
   ){}
 
   ngOnInit(): void {
-    this.configTabela();
+    this.getFornecedores();
   }
 
-  configTabela(){
+  getFornecedores(){
+    this.spinnerService.show();
     this.fornecedorService.getFornecedores().subscribe({
       next:(result)=>{
-        this.fornecedores = result;
-        this.fornecedores = this.fornecedoresStorage.fornecedores;
+        this.fornecedores = result.data;
+        this.spinnerService.hide();
 
       },error:(err)=>{
+        this.spinnerService.hide();
 
     }})
   }
 
-  abrirCadastroFornecedores(){
+
+  abrirCadastroFornecedores(fornecedor?){
     this.ref = this.dialogService.open(NovoFornecedorComponent, { 
       header: 'Cadastrar Novo Fornecedor',
-      width:'80%'
+      width:'80%',
+      data:{fornecedor}
     });
     this.ref.onClose.subscribe((refresh: boolean) => {
-      if (refresh) {
-          this.configTabela();
+      if (refresh == true) {
+          this.getFornecedores();
       }
     });
+  }
+
+  confirmarExclusaoFornecedor(fornecedor:OrcamentoDados){
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: `Tem certeza que deseja o fornecedor ${fornecedor.descricao}?`,
+      header: 'Não será possível reverter essa ação!',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel:'Excluir',
+      rejectLabel:'Cancelar',
+      rejectButtonStyleClass:"p-button-text",
+      accept: () => {
+        this.excluir(fornecedor.id);
+      },
+      reject: () => {}
+    }); 
+  }
+  excluir(id){
+    this.spinnerService.show();
+    this.fornecedorService.delete(id).subscribe({
+      next:(result)=>{
+        this.spinnerService.hide();
+        this.getFornecedores();
+
+      },error:(err)=>{
+        this.spinnerService.hide();
+
+    }})
   }
 }

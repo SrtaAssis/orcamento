@@ -27,16 +27,18 @@ import { InfoTable } from '../../core/model/info-table';
 export class ClienteComponent implements OnInit{
   form:FormGroup;
   cliente:Cliente = new Cliente();
-  constructor(private clienteStorage:ClienteStorageService,
+  loading:boolean = false;
+
+  constructor(
+    private clienteStorage:ClienteStorageService,
     private toastService:ToastService,
     private spinnerService:SpinnerService,
     private clienteService:ClienteService
   ){}
 
   ngOnInit(): void {
-    this.getCliente();
-    // this.cliente = this.clienteStorage.cliente;
     this.buildForm();
+    this.getCliente();
   }
 
   buildForm(){
@@ -45,7 +47,7 @@ export class ClienteComponent implements OnInit{
       obra: new FormControl(this.cliente.obra,[Validators.required]),
       telefone: new FormControl(this.cliente.telefone,[Validators.required]),
       enderecoCliente: new FormControl(this.cliente.enderecoCliente,[Validators.required]),
-      endereco: new FormControl(this.cliente.endereco,[Validators.required]),
+      enderecoObra: new FormControl(this.cliente.enderecoObra,[Validators.required]),
       cidade: new FormControl(this.cliente.cidade,[Validators.required]),
       estado: new FormControl(this.cliente.estado,[Validators.required]),
       email: new FormControl(this.cliente.email,[Validators.required]),
@@ -68,17 +70,23 @@ export class ClienteComponent implements OnInit{
   }
 
   getCliente(){
+    this.loading = true;
     this.spinnerService.show();
     this.clienteService.getCliente().subscribe({
       next: (result) => {
-        console.log(result);
-        console.log(result.data[0]);
+        if(result.data[0]){
+          this.cliente = result.data[0];
+          this.cliente.previsaoInicio = new Date(this.cliente.previsaoInicio);
+          this.form.patchValue(this.cliente);
+        }
 
-        this.cliente = result.data[0];
         this.spinnerService.hide();
+        this.loading = false;
 
       }, error: (err) => {
         this.spinnerService.hide();
+        this.loading = false;
+
       }
     });
   }

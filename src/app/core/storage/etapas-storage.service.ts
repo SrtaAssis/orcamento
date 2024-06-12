@@ -9,7 +9,6 @@ export class EtapasStorageService {
 
   private _etapas:EtapaModel[] = [];
   constructor() {
-    this._etapas = Object.values(Etapas);
    }
 
   set etapas(cl:EtapaModel[]){

@@ -1,68 +1,4 @@
-<!-- <form [formGroup]="form">
-    <div class="grid">
-        <div class="col-12 flex flex-column">
-            <label class="mb-2 block font-bold" for="stacked">Descrição</label>
-            <input type="text" pInputText formControlName="descricao"/>
-        </div>
-        <div class="col-4 flex flex-column">
-            <label class="mb-2 block font-bold" for="stacked">Material</label>
-            <p-inputNumber inputId="integeronly" formControlName="material" [maxFractionDigits]="2"/>
-        </div>
-        <div class="col-4 flex flex-column">
-            <label class="mb-2 block font-bold" for="stacked">Mão De Obra</label>
-            <p-inputNumber formControlName="maoDeObra" [maxFractionDigits]="2" > </p-inputNumber>
-        </div>
-        <div class="col-4 flex flex-column">
-            <label class="mb-2 block font-bold" for="stacked">Unidade</label>
-            <p-inputNumber formControlName="unidade"> </p-inputNumber>
-        </div>
-        <div class="col-6 flex flex-column">
-            <label class="mb-2 block font-bold" for="stacked">Empresa</label>
-            <input type="text" pInputText formControlName="empresa"/>
-        </div>
-        <div class="col-6 flex flex-column">
-            <label class="mb-2 block font-bold" for="stacked">CNPJ</label>
-            <p-inputMask mask="99.999.999/9999-99" formControlName="cnpj" placeholder="99.999.999./9999-99"></p-inputMask>
-        </div>
-        <div class="col-6 flex flex-column">
-            <label class="mb-2 block font-bold" for="stacked">Telefone</label>
-            <p-inputMask mask="(99) 9 9999-9999" formControlName="telefone" placeholder="(99) 9 9999-9999"></p-inputMask>
-        </div>
-        <div class="col-6 flex flex-column">
-            <label class="mb-2 block font-bold" for="stacked">Email</label>
-            <input type="email" pInputText formControlName="email"/>
-        </div>
-        <div class="col-12 flex flex-column">
-            <label class="mb-2 block font-bold" for="stacked">Endereço</label>
-            <input type="text" pInputText formControlName="endereco"/>
-        </div>
-        <div class="col-6 flex flex-column">
-            <label class="mb-2 block font-bold" for="stacked">Cidade</label>
-            <input type="text" pInputText formControlName="cidade"/>
-        </div>
-        <div class="col-6 flex flex-column">
-            <label class="mb-2 block font-bold" for="stacked">Estado</label>
-            <input type="text" pInputText formControlName="estado"/>
-        </div>
-        <div class="col-6 flex flex-column">
-            <label class="mb-2 block font-bold" for="stacked">CEP</label>
-            <p-inputMask mask="99999-999" formControlName="cep" placeholder="99999-999"></p-inputMask>
-        </div>
-        <div class="col-6 flex flex-column">
-            <label class="mb-2 block font-bold" for="stacked">Compra Minima</label>
-            <p-inputNumber formControlName="compraMinima"> </p-inputNumber>
-        </div>
-        <div class="col-6 flex flex-column">
-            <label class="mb-2 block font-bold" for="stacked">Garantia Oferecida</label>
-            <p-inputNumber formControlName="garantiaOferecida"> </p-inputNumber>
-        </div>
-        <div class="col-6 flex flex-column">
-            <label class="mb-2 block font-bold" for="stacked">Prazo de Entrega</label>
-            <p-inputNumber formControlName="prazoEntrega"> </p-inputNumber>
-        </div>
-    </div>
- 
-</form> -->
+
 <div class="grid">
     <form class="col-12" [formGroup]="form">
         <div class="col-6 flex flex-column">
@@ -118,7 +54,7 @@
             <p-inputNumber formControlName="garantiaOferecida"> </p-inputNumber>
         </div>
         <div class="col-4 flex flex-column">
-            <label class="mb-2 block font-bold" for="stacked">Prazo de Entrega</label>
+            <label class="mb-2 block font-bold" for="stacked">Prazo de Entrega (Dias úteis)</label>
             <p-inputNumber formControlName="prazoEntrega"> </p-inputNumber>
         </div>
     </form>
